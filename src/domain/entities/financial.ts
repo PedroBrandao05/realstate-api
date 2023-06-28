@@ -1,0 +1,20 @@
+export interface IFinancial {
+    id: string,
+    propertyId: string,
+    sale: boolean,
+    rent: boolean,
+    financing: boolean,
+    saleCost: number,
+    rentCost: number,
+    financingDetails: string,
+    condominiumCost: number,
+    iptuCost: number,
+    empty: boolean,
+    contributor: string,
+    register: string,
+    registration: string,
+    transcription: string,
+    regularDocumentation: boolean,
+    documentationObservation: string,
+    acceptsExchange: boolean
+}
