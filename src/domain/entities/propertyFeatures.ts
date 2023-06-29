@@ -1,5 +1,7 @@
-export interface IPropertyFeatures {
-    id: string,
-    propertyId: string,
-    featureId: string
+export class PropertyFeatures {
+    constructor (
+        private readonly id: string,
+        private readonly propertyId: string,
+        private readonly featureId: string
+    ){}
 }
