@@ -3,13 +3,12 @@ export class Financial {
     propertyId!: string
     sale!: boolean
     rent!: boolean
-    financing!: boolean
+    purchaseMethod!: 'financing' | 'cash'
     saleCost!: number
     rentCost!: number
-    financingDetails!: string
+    purchasingDetails!: string
     condominiumCost!: number
     iptuCost!: number
-    contributor!: string
     register!: string
     registration!: string
     transcription!: string
