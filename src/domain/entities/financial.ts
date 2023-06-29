@@ -1,21 +1,19 @@
 export class Financial {
-    constructor (
-        private readonly id: string,
-        private readonly propertyId: string,
-        private readonly sale: boolean,
-        private readonly rent: boolean,
-        private readonly financing: boolean,
-        private readonly saleCost: number,
-        private readonly rentCost: number,
-        private readonly financingDetails: string,
-        private readonly condominiumCost: number,
-        private readonly iptuCost: number,
-        private readonly contributor: string,
-        private readonly register: string,
-        private readonly registration: string,
-        private readonly transcription: string,
-        private readonly regularDocumentation: boolean,
-        private readonly documentationObservation: string,
-        private readonly acceptsExchange: boolean
-    ){}
+    id!: string
+    propertyId!: string
+    sale!: boolean
+    rent!: boolean
+    financing!: boolean
+    saleCost!: number
+    rentCost!: number
+    financingDetails!: string
+    condominiumCost!: number
+    iptuCost!: number
+    contributor!: string
+    register!: string
+    registration!: string
+    transcription!: string
+    regularDocumentation!: boolean
+    documentationObservation!: string
+    acceptsExchange!: boolean
 }

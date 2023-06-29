@@ -1,7 +1,6 @@
 export class PropertyFeatures {
-    constructor (
-        private readonly id: string,
-        private readonly propertyId: string,
-        private readonly featureId: string
-    ){}
+   id!: string
+   propertyId!: string
+   featureId!: string
+    
 }
