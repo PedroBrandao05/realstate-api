@@ -1,0 +1,24 @@
+import { Owner } from "../entities/owner"
+
+export interface IOwnerService {
+    findByEmail (email: string): Promise<Owner>
+    createOwner (input: OwnerServiceDTO.createOwnerInput): Promise<void>
+    updateOwner (input: OwnerServiceDTO.updateOwnerInput): Promise<void>
+    deleteOne (email: string): Promise<void>
+}
+
+export namespace OwnerServiceDTO {
+    export type createOwnerInput = {
+        name: string
+        document: number
+        phone: number
+        email: string
+    }
+    export type updateOwnerInput = {
+        id: string,
+        name: string,
+        document: number,
+        phone: number,
+        email: string
+    }
+}
