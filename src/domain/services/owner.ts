@@ -8,12 +8,7 @@ export interface IOwnerService {
 }
 
 export namespace OwnerServiceDTO {
-    export type createOwnerInput = {
-        name: string
-        document: number
-        phone: number
-        email: string
-    }
+    export type createOwnerInput = Omit<Owner, 'id'>
     export type updateOwnerInput = {
         id: string,
         name: string,
