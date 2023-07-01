@@ -24,7 +24,6 @@ export default class OwnerService implements IOwnerService{
         const id = this.uuidGenerator.generate()
         const owner = new Owner()
         owner.id = id
-        owner.document = input.document
         owner.email = input.email
         owner.name = input.name
         owner.phone = input.phone
@@ -36,7 +35,6 @@ export default class OwnerService implements IOwnerService{
         if (!exists) throw new ApplicationError('This owner is not registered', 403)
         const owner = new Owner()
         owner.id = input.id
-        owner.document = input.document
         owner.email = input.email
         owner.name = input.name
         owner.phone = input.phone
