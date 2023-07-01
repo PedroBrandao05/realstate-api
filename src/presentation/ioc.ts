@@ -18,6 +18,8 @@ import IPropertyRepository from "../domain/repositories/property";
 import PropertyRepository from "../infra/repositories/property";
 import IFeatureRepository from "../domain/repositories/feature";
 import FeatureRepository from "../infra/repositories/features";
+import IPropertyFeaturesRepository from "../domain/repositories/propertyFeatures";
+import PropertyFeaturesRepository from "../infra/repositories/propertyFeatures";
 
 const iocContainer = new Container()
 iocContainer.bind<IUuidGenerator>('IUuidGenerator').to(IdGenerator)
@@ -29,5 +31,6 @@ iocContainer.bind<IUserRepository>('IUserRepository').to(UserRepository)
 iocContainer.bind<IUserService>('IUserService').to(UserService)
 iocContainer.bind<IPropertyRepository>('IPropertyRepository').to(PropertyRepository)
 iocContainer.bind<IFeatureRepository>('IFeatureRepository').to(FeatureRepository)
+iocContainer.bind<IPropertyFeaturesRepository>('IPropertyFeaturesRepository').to(PropertyFeaturesRepository)
 
 export { iocContainer }
