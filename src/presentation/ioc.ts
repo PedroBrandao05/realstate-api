@@ -14,6 +14,10 @@ import { IUserService } from "../domain/services/user";
 import UserService from "../application/services/user";
 import IUserRepository from "../domain/repositories/user";
 import UserRepository from "../infra/repositories/user";
+import IPropertyRepository from "../domain/repositories/property";
+import PropertyRepository from "../infra/repositories/property";
+import IFeatureRepository from "../domain/repositories/feature";
+import FeatureRepository from "../infra/repositories/features";
 
 const iocContainer = new Container()
 iocContainer.bind<IUuidGenerator>('IUuidGenerator').to(IdGenerator)
@@ -23,5 +27,7 @@ iocContainer.bind<IOwnerService>('IOwnerService').to(OwnerService)
 iocContainer.bind<IDatabaseDriver>('IDatabaseDrive').to(DatabaseDriver)
 iocContainer.bind<IUserRepository>('IUserRepository').to(UserRepository)
 iocContainer.bind<IUserService>('IUserService').to(UserService)
+iocContainer.bind<IPropertyRepository>('IPropertyRepository').to(PropertyRepository)
+iocContainer.bind<IFeatureRepository>('IFeatureRepository').to(FeatureRepository)
 
 export { iocContainer }
