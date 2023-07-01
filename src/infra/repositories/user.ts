@@ -28,7 +28,7 @@ export default class UserRepository implements IUserRepository {
     }
 
     async findByEmail(email: string): Promise<User> {
-        const user = await this.database.run(`select * from user where email = '${email}'`)
+        const [user] = await this.database.run(`select * from user where email = '${email}'`)
         return this.toModel(user)
     }
 }

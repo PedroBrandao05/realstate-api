@@ -20,12 +20,12 @@ export default class OwnerRepository implements IOwnerRepository {
     }
 
     async findByEmail(email: string): Promise<Owner> {
-        const data = await this.database.run(`select * from owner where email = '${email}'`)
+        const [data] = await this.database.run(`select * from owner where email = '${email}'`)
         return this.toModel(data)
     }
 
     async create(owner: Owner): Promise<Owner> {
-        const data = await this.database.run(`
+        const [data] = await this.database.run(`
         insert into owner (id, name, email, phone) 
         values ('${owner.id}', '${owner.name}', '${owner.email}', ${owner.phone})
         `)
@@ -33,7 +33,7 @@ export default class OwnerRepository implements IOwnerRepository {
     }
 
     async update(owner: Owner): Promise<Owner> {
-        const data = await this.database.run(`
+        const [data] = await this.database.run(`
         update owner
         set name = '${owner.name}',
         set email = '${owner.email}',
