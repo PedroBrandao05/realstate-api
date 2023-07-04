@@ -9,9 +9,6 @@ export class Financial {
     purchasingDetails!: string
     condominiumCost!: number
     iptuCost!: number
-    register!: string
-    registration!: string
-    transcription!: string
     regularDocumentation!: boolean
     documentationObservation!: string
     acceptsExchange!: boolean

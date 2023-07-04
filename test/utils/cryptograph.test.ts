@@ -1,4 +1,4 @@
-import { Hasher } from "../src/infra/cryptograph/hasher"
+import { Hasher } from "../../src/infra/cryptograph/hasher"
 
 describe('Cryptograph related validations', () => {
     it('Must return false', () => {

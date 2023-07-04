@@ -1,4 +1,4 @@
-import IdGenerator from "../src/infra/utils/uuid"
+import IdGenerator from "../../src/infra/utils/uuid"
 
 describe('Uuid generator validations', () => {
 
