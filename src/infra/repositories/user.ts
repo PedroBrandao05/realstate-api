@@ -8,7 +8,17 @@ import { User } from "../../domain/entities/user";
 export default class UserRepository implements IUserRepository {
     constructor (
         @inject('IDatabaseDriver') private readonly database: IDatabaseDriver
-    ){}
+    ){
+        database.initQuery = `create table user ( 
+            id varchar(36) not null primary key, 
+            name varchar(50) not null, 
+            email varchar(50) not null, 
+            password varchar(50) not null,
+            phone int not null
+            );`
+        database.dropQuery = 'drop table user'
+        database.connect()
+    }
 
     private toModel (data: any): User {
         const user = new User()
@@ -27,8 +37,9 @@ export default class UserRepository implements IUserRepository {
         `)
     }
 
-    async findByEmail(email: string): Promise<User> {
-        const [user] = await this.database.run(`select * from user where email = '${email}'`)
+    async findByEmail(email: string): Promise<User | null> {
+        const [user] = await this.database.get(`select * from user where email = '${email}'`)
+        if (!user) return null
         return this.toModel(user)
     }
 }

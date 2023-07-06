@@ -26,7 +26,7 @@ export default class PropertyFeaturesRepository implements IPropertyFeaturesRepo
     }
 
     async findByProperty(propertyId: string): Promise<PropertyFeatures[]> {
-        const data = await this.database.run(`select * from propertyFeatures where propertyId = '${propertyId}'`)
+        const data = await this.database.get(`select * from propertyFeatures where propertyId = '${propertyId}'`)
         let propertyFeatures: PropertyFeatures[] = []
         for (const propertyFeature of data) {
             propertyFeatures.push(this.toModel(propertyFeature))

@@ -24,9 +24,9 @@ export default class PostgreSQLDriver implements IDatabaseDriver {
         await this.disconnect(database)
     }
 
-    async get<T>(query: string): Promise<T> {
+    async get(query: string): Promise<any> {
         const database = await this.connect()
-        const results = await database.query<T>(query)
+        const results = await database.query(query)
         await this.disconnect(database)
         return results
     }

@@ -13,14 +13,12 @@ export default class OwnerService implements IOwnerService{
         @inject('IOwnerRepository') private readonly ownerRepository: IOwnerRepository
     ){}
 
-    async findByEmail(email: string): Promise<Owner> {
-        const owner = this.ownerRepository.findByEmail(email)
-        return owner
+    async findById(id: string): Promise<Owner> {
+        const owner = this.ownerRepository.findById(id)
+        return owner 
     }
 
     async createOwner(input: OwnerServiceDTO.createOwnerInput): Promise<void> {
-        const exists = await this.findByEmail(input.email)
-        if (exists) throw new ApplicationError('This owner was already registered', 403)
         const id = this.uuidGenerator.generate()
         const owner = new Owner()
         owner.id = id
@@ -31,8 +29,6 @@ export default class OwnerService implements IOwnerService{
     }
 
     async updateOwner(input: OwnerServiceDTO.updateOwnerInput): Promise<void> {
-        const exists = await this.findByEmail(input.email)
-        if (!exists) throw new ApplicationError('This owner is not registered', 403)
         const owner = new Owner()
         owner.id = input.id
         owner.email = input.email
@@ -41,9 +37,7 @@ export default class OwnerService implements IOwnerService{
         await this.ownerRepository.update(owner)
     }
 
-    async deleteOne(email: string): Promise<void> {
-        const exists = await this.findByEmail(email)
-        if (!exists) throw new ApplicationError('This owner is not registered', 403)
-        await this.ownerRepository.delete(exists.id)
+    async deleteOne(id: string): Promise<void> {
+        await this.ownerRepository.delete(id)
     }
 }

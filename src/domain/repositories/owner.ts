@@ -1,8 +1,8 @@
 import { Owner } from "../entities/owner";
 
 export default interface IOwnerRepository {
-    findByEmail (email: string): Promise<Owner>
-    create (owner: Owner): Promise<Owner>
-    update (owner: Owner): Promise<Owner>
+    findById (id: string): Promise<Owner>
+    create (owner: Owner): Promise<void>
+    update (owner: Owner): Promise<void>
     delete (id: string): Promise<void>
 }

@@ -27,7 +27,7 @@ export default class UserService implements IUserService {
         await this.userRepository.create(user)
     }
 
-    async signin(input: UserServiceDTO.signupInput): Promise<UserServiceDTO.signinOutput> {
+    async signin(input: UserServiceDTO.signinInput): Promise<UserServiceDTO.signinOutput> {
         const exists = await this.userRepository.findByEmail(input.email)
         if (!exists) throw new ApplicationError('Email or password are wrongs', 403)
         const passwordMatches = this.hasher.compare(input.password, exists.password)

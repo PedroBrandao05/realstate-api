@@ -19,28 +19,26 @@ export default class OwnerRepository implements IOwnerRepository {
         return owner
     }
 
-    async findByEmail(email: string): Promise<Owner> {
-        const [data] = await this.database.run(`select * from owner where email = '${email}'`)
+    async findById(id: string): Promise<Owner> {
+        const [data] = await this.database.get(`select * from owner where id = '${id}'`)
         return this.toModel(data)
     }
 
-    async create(owner: Owner): Promise<Owner> {
-        const [data] = await this.database.run(`
+    async create(owner: Owner): Promise<void> {
+        await this.database.run(`
         insert into owner (id, name, email, phone) 
         values ('${owner.id}', '${owner.name}', '${owner.email}', ${owner.phone})
         `)
-        return this.toModel(data)
     }
 
-    async update(owner: Owner): Promise<Owner> {
-        const [data] = await this.database.run(`
+    async update(owner: Owner): Promise<void> {
+        await this.database.run(`
         update owner
         set name = '${owner.name}',
         set email = '${owner.email}',
         set phone = ${owner.phone}
         where id = '${owner.id}'
         `)
-        return this.toModel(data)
     }
 
     async delete(id: string): Promise<void> {

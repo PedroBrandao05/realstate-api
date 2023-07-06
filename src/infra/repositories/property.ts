@@ -32,7 +32,7 @@ export default class PropertyRepository implements IPropertyRepository {
     }
 
     async findAll(): Promise<Property[]> {
-        const data = await this.database.run('select * from property')
+        const data = await this.database.get('select * from property')
         let properties : Property[] = []
         for (const property of data) {
             properties.push(this.toModel(property))
@@ -41,7 +41,7 @@ export default class PropertyRepository implements IPropertyRepository {
     }
 
     async findById(id: string): Promise<Property> {
-        const [property] = await this.database.run(`select * from property where id = '${id}'`)
+        const [property] = await this.database.get(`select * from property where id = '${id}'`)
         return this.toModel(property)
     }
 

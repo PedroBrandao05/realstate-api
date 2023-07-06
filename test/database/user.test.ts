@@ -1,13 +1,7 @@
+import UserService from '../../src/application/services/user'
 import InMemoryDatabase from '../../src/infra/db/in-memory'
 import IdGenerator from '../../src/infra/utils/uuid'
-
-interface User {
-    id: string,
-    name: string,
-    password: string,
-    email: string,
-    phone: number
-}
+import { iocContainer } from '../../src/presentation/ioc'
 
 const initQuery = `create table user ( 
     id varchar(36) not null primary key, 
@@ -19,33 +13,42 @@ const initQuery = `create table user (
 
 const dropQuery = 'drop table user;'
 
-const inMemory = new InMemoryDatabase()
-inMemory.initQuery = initQuery
-inMemory.dropQuery = dropQuery
-
 
 describe('user related queries', () => {
     it('should create a user', async () => {
-        await inMemory.connect()
-        const uuidGenerator = new IdGenerator()
-        const id = uuidGenerator.generate()
-        const user = {
-            id,
-            name: 'pedro',
-            email: 'pedro-brandao2012@hotmail.com',
-            phone: 11973321430,
-            password: 'xqcRE2D2'
-        }
-        await inMemory.run(
-            `insert into user (id, name, email, password, phone) 
-             values ('${user.id}', '${user.name}', '${user.email}', '${user.password}', ${user.phone})
-            `)
-        const results = await inMemory.get<User>(`select * from user where id = '${id}'`)
-        await inMemory.clear()
-        expect(results).toEqual(user)
+        const service = iocContainer.get<UserService>('IUserService')
+        await service.signup({name: 'Pedro', email: 'pedro-brandao2012@hotmail.com', password: 'Aracnideo1!', phone: 11973321430})
+        const userInfo = await service.signin({email: 'pedro-brandao2012@hotmail.com', password: 'Aracnideo1!'})
+        expect(userInfo).toEqual({name: 'Pedro', email: 'pedro-brandao2012@hotmail.com', phone: 11973321430})
     })
-})
 
-afterAll(async () => {
-    await inMemory.disconnect()
+    it('should return all the users', async () => {
+        const uuid = new IdGenerator()
+        const inMemoryDatabase = new InMemoryDatabase()
+        inMemoryDatabase.initQuery = initQuery
+        inMemoryDatabase.dropQuery = dropQuery
+        await inMemoryDatabase.connect()
+        const user1 = {
+            id: uuid.generate(),
+            name: 'Flavio',
+            email: 'flavio134@hotmail.com',
+            phone: 1193939492,
+            password: 'xqcE21A3'
+        }
+        const user2 = {
+            id: uuid.generate(),
+            name: 'Flavia',
+            email: 'flavia134@hotmail.com',
+            phone: 1193934322,
+            password: 'xqcE2aaaa33'
+        }
+        await inMemoryDatabase.run(`insert into user (id, name, email, phone, password) 
+        values ('${user1.id}', '${user1.name}', '${user1.email}', '${user1.phone}', '${user1.password}')    
+        `)
+        await inMemoryDatabase.run(`insert into user (id, name, email, phone, password) 
+        values ('${user2.id}', '${user2.name}', '${user2.email}', '${user2.phone}', '${user2.password}')    
+        `)
+        const users = await inMemoryDatabase.get('select * from user')
+        expect(users).toEqual([user1, user2])
+    })
 })

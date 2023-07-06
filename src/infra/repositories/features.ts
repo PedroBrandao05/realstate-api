@@ -19,7 +19,7 @@ export default class FeatureRepository implements IFeatureRepository {
     }
 
     async findAllFeatures(): Promise<Feature[]> {
-        const data = await this.database.run('select * from feature')
+        const data = await this.database.get('select * from feature')
         let features : Feature[] = []
         for (const feature of data) {
             features.push(this.toModel(feature))
@@ -28,7 +28,7 @@ export default class FeatureRepository implements IFeatureRepository {
     }
 
     async findById(id: string): Promise<Feature> {
-        const [feature] = await this.database.run(`select * from feature where id = '${id}'`)
+        const [feature] = await this.database.get(`select * from feature where id = '${id}'`)
         return this.toModel(feature)
     }
 

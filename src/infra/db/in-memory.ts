@@ -45,9 +45,9 @@ export default class InMemoryDatabase implements IDatabaseDriver {
         })
     }
 
-    async get<T>(query: string): Promise<T> {
+    async get(query: string): Promise<any> {
         return new Promise((resolve, reject) => {
-           this.database.get<T>(query, (err, row) => {
+           this.database.all(query, (err, row) => {
                 if (err) reject(err)
                 resolve(row)
             })

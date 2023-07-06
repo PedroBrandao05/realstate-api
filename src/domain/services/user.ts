@@ -1,6 +1,6 @@
 export interface IUserService {
     signup (input: UserServiceDTO.signupInput): Promise<void>
-    signin (input: UserServiceDTO.signupInput): Promise<UserServiceDTO.signinOutput>
+    signin (input: UserServiceDTO.signinInput): Promise<UserServiceDTO.signinOutput>
 }
 
 export namespace UserServiceDTO {
