@@ -17,7 +17,12 @@ const dropQuery = 'drop table user;'
 describe('user related queries', () => {
     it('should create a user', async () => {
         const service = iocContainer.get<UserService>('IUserService')
-        await service.signup({name: 'Pedro', email: 'pedro-brandao2012@hotmail.com', password: 'Aracnideo1!', phone: 11973321430})
+        await service.signup({
+            name: 'Pedro', 
+            email: 'pedro-brandao2012@hotmail.com', 
+            password: 'Aracnideo1!', 
+            phone: 11973321430,
+            creci: '125cs3-J'})
         const userInfo = await service.signin({email: 'pedro-brandao2012@hotmail.com', password: 'Aracnideo1!'})
         expect(userInfo).toEqual({name: 'Pedro', email: 'pedro-brandao2012@hotmail.com', phone: 11973321430})
     })
@@ -33,12 +38,14 @@ describe('user related queries', () => {
             name: 'Flavio',
             email: 'flavio134@hotmail.com',
             phone: 1193939492,
+            creci: 'ABCOEI-A',
             password: 'xqcE21A3'
         }
         const user2 = {
             id: uuid.generate(),
             name: 'Flavia',
             email: 'flavia134@hotmail.com',
+            creci: 'ABCOA3Q-A',
             phone: 1193934322,
             password: 'xqcE2aaaa33'
         }

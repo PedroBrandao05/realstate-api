@@ -8,7 +8,8 @@ export namespace UserServiceDTO {
         name: string,
         email: string,
         password: string,
-        phone: number
+        phone: number,
+        creci: string
     }
     export type signinInput = {
         email: string,

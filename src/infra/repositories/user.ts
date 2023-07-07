@@ -14,6 +14,7 @@ export default class UserRepository implements IUserRepository {
             name varchar(50) not null, 
             email varchar(50) not null, 
             password varchar(50) not null,
+            creci varchar(15) not null,
             phone int not null
             );`
         database.dropQuery = 'drop table user'
@@ -27,6 +28,7 @@ export default class UserRepository implements IUserRepository {
         user.name = data.name
         user.phone = data.phone
         user.password = data.password
+        user.creci = data.creci
         return user
     }
 

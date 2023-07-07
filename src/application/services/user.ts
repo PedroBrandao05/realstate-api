@@ -24,6 +24,7 @@ export default class UserService implements IUserService {
         user.name = input.name
         user.password = this.hasher.encrypt(input.password)
         user.phone = input.phone
+        user.creci = input.creci
         await this.userRepository.create(user)
     }
 
