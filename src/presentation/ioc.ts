@@ -21,6 +21,8 @@ import FeatureRepository from "../infra/repositories/features";
 import IPropertyFeaturesRepository from "../domain/repositories/propertyFeatures";
 import PropertyFeaturesRepository from "../infra/repositories/propertyFeatures";
 import InMemoryDatabase from "../infra/db/in-memory";
+import IJwt from "../application/contracts/jwt";
+import Jwt from "../infra/utils/jwt";
 
 const iocContainer = new Container()
 iocContainer.bind<IUuidGenerator>('IUuidGenerator').to(IdGenerator)
@@ -33,5 +35,6 @@ iocContainer.bind<IUserService>('IUserService').to(UserService)
 iocContainer.bind<IPropertyRepository>('IPropertyRepository').to(PropertyRepository)
 iocContainer.bind<IFeatureRepository>('IFeatureRepository').to(FeatureRepository)
 iocContainer.bind<IPropertyFeaturesRepository>('IPropertyFeaturesRepository').to(PropertyFeaturesRepository)
+iocContainer.bind<IJwt>('IJwt').to(Jwt)
 
 export { iocContainer }

@@ -16,8 +16,6 @@ export namespace UserServiceDTO {
         password: string
     }
     export type signinOutput = {
-        name: string,
-        email: string,
-        phone: number
+        token: string
     }
 }

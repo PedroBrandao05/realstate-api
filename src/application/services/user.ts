@@ -6,13 +6,15 @@ import IUuidGenerator from "../contracts/uuidGenerator";
 import IHasher from "../contracts/hasher";
 import { ApplicationError } from "../../domain/error/application";
 import { User } from "../../domain/entities/user";
+import IJwt from "../contracts/jwt";
 
 @injectable()
 export default class UserService implements IUserService {
     constructor (
       @inject('IUserRepository') private readonly userRepository: IUserRepository,
       @inject('IUuidGenerator') private readonly uuidGenerator: IUuidGenerator,
-      @inject('IHasher') private readonly hasher: IHasher  
+      @inject('IHasher') private readonly hasher: IHasher,
+      @inject('IJwt') private readonly tokenGenerator: IJwt  
     ){}
 
     async signup(input: UserServiceDTO.signupInput): Promise<void> {
@@ -33,10 +35,9 @@ export default class UserService implements IUserService {
         if (!exists) throw new ApplicationError('Email or password are wrongs', 403)
         const passwordMatches = this.hasher.compare(input.password, exists.password)
         if (!passwordMatches) throw new ApplicationError('Email or password are wrong', 403)
-        return {
-            email: exists.email,
-            name: exists.name,
-            phone: exists.phone,
-        }
+        
+        const token = this.tokenGenerator.generate({email: exists.email, name: exists.name, phone: exists.phone})
+
+        return {token}
     }
 }
