@@ -1,25 +1,14 @@
 import { inject, injectable } from "inversify";
 import 'reflect-metadata'
 import IUserRepository from "../../domain/repositories/user";
-import { IDatabaseDriver } from "../../application/contracts/databaseDriver";
 import { User } from "../../domain/entities/user";
+import IDatabaseConnection from "../../application/contracts/databaseConnection";
 
 @injectable()
 export default class UserRepository implements IUserRepository {
     constructor (
-        @inject('IDatabaseDriver') private readonly database: IDatabaseDriver
-    ){
-        database.initQuery = `create table user ( 
-            id varchar(36) not null primary key, 
-            name varchar(50) not null, 
-            email varchar(50) not null, 
-            password varchar(50) not null,
-            creci varchar(15) not null,
-            phone int not null
-            );`
-        database.dropQuery = 'drop table user'
-        database.connect()
-    }
+        @inject('IDatabaseConnection') private readonly database: IDatabaseConnection
+    ){}
 
     private toModel (data: any): User {
         const user = new User()
@@ -33,14 +22,11 @@ export default class UserRepository implements IUserRepository {
     }
 
     async create(user: User): Promise<void> {
-        await this.database.run(`
-        insert into user (id, name, email, password, phone)
-        values ('${user.id}', '${user.name}', '${user.email}', '${user.password}', ${user.phone})
-        `)
+        await this.database.query('insert into user (id, name, email, password, phone, creci ) values ($1, $2, $3, $4, $5, $6)', [user.id, user.name, user.email, user.password, user.phone, user.creci])
     }
 
     async findByEmail(email: string): Promise<User | null> {
-        const [user] = await this.database.get(`select * from user where email = '${email}'`)
+        const [user] = await this.database.query('select * from user where email = $1', [email])
         if (!user) return null
         return this.toModel(user)
     }

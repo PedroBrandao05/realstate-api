@@ -2,12 +2,12 @@ import { inject, injectable } from "inversify";
 import 'reflect-metadata'
 import IOwnerRepository from "../../domain/repositories/owner";
 import { Owner } from "../../domain/entities/owner";
-import { IDatabaseDriver } from "../../application/contracts/databaseDriver";
+import IDatabaseConnection from "../../application/contracts/databaseConnection";
 
 @injectable()
 export default class OwnerRepository implements IOwnerRepository {
     constructor (
-        @inject('IDatabaseDriver') private readonly database: IDatabaseDriver
+        @inject('IDatabaseConnection') private readonly database: IDatabaseConnection
     ){}
 
     private toModel (data: any): Owner {
@@ -20,28 +20,28 @@ export default class OwnerRepository implements IOwnerRepository {
     }
 
     async findById(id: string): Promise<Owner> {
-        const [data] = await this.database.get(`select * from owner where id = '${id}'`)
+        const [data] = await this.database.query(`select * from owner where id = $1`, [id])
         return this.toModel(data)
     }
 
     async create(owner: Owner): Promise<void> {
-        await this.database.run(`
+        await this.database.query(`
         insert into owner (id, name, email, phone) 
-        values ('${owner.id}', '${owner.name}', '${owner.email}', ${owner.phone})
-        `)
+        values ($1, $2, $3, $4)
+        `, [owner.id, owner.name, owner.email, owner.phone])
     }
 
     async update(owner: Owner): Promise<void> {
-        await this.database.run(`
+        await this.database.query(`
         update owner
-        set name = '${owner.name}',
-        set email = '${owner.email}',
-        set phone = ${owner.phone}
-        where id = '${owner.id}'
-        `)
+        set name = $1,
+        email = $2,
+        phone = $3
+        where id = $4
+        `, [owner.name, owner.email, owner.phone, owner.id])
     }
 
     async delete(id: string): Promise<void> {
-        await this.database.run(`delete from owner where id = '${id}'`)
+        await this.database.query(`delete from owner where id = $1`, [id])
     }
 }

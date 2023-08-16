@@ -7,6 +7,7 @@ import IHasher from "../contracts/hasher";
 import { ApplicationError } from "../../domain/error/application";
 import { User } from "../../domain/entities/user";
 import IJwt from "../contracts/jwt";
+import validateToken from "../validation/leaves/validateToken";
 
 @injectable()
 export default class UserService implements IUserService {
@@ -39,5 +40,17 @@ export default class UserService implements IUserService {
         const token = this.tokenGenerator.generate({email: exists.email, name: exists.name, phone: exists.phone})
 
         return {token}
+    }
+
+    async refreshToken(input: UserServiceDTO.refreshTokenInput): Promise<UserServiceDTO.refreshTokenOutput> {
+        const pastSession = validateToken(input.token)
+        const user = await this.userRepository.findByEmail(pastSession.email)
+        if (!user) throw new ApplicationError("User on session does not exist", 400)
+
+        const token = this.tokenGenerator.generate({email: user.email, name: user.name, phone: user.phone})
+
+        return {
+            token
+        }
     }
 }

@@ -1,33 +1,26 @@
 import { injectable } from "inversify";
 import 'reflect-metadata'
-import { IDatabaseDriver } from "../../application/contracts/databaseDriver";
-import { config } from ".";
-import pgPromise from "pg-promise";
+import IDatabaseConnection from "../../application/contracts/databaseConnection";
+import pgp from 'pg-promise'; 
+import dotenv from 'dotenv'
 
-@injectable()
-export default class PostgreSQLDriver implements IDatabaseDriver {
+dotenv.config()
 
-    async connect(): Promise<pgPromise.IDatabase<any, any>> {
-        const postgre = pgPromise({})
-        const db = postgre(config)
-        db.connect().then(() => console.log('Connected to database')).catch((err) => {console.log(err)})
-        return db;
-    }
+const dbPassword = process.env.DB_PASSWORD
+const dbName = process.env.DB_NAME
 
-    async disconnect(db: pgPromise.IDatabase<any, any>): Promise<void> {
-        await db.$pool.end()
-    }
-    
-    async run(query: string): Promise<void> {
-        const database = await this.connect()
-        await database.query(query)
-        await this.disconnect(database)
-    }
+export default class PgPromiseAdapter implements IDatabaseConnection {
+  connection: any;
 
-    async get(query: string): Promise<any> {
-        const database = await this.connect()
-        const results = await database.query(query)
-        await this.disconnect(database)
-        return results
-    }
+  async connect(): Promise<void> {
+    this.connection = pgp()(`postgres://postgres:${dbPassword}@localhost:5432/${dbName}`);
+  }
+  
+  query(statement: string, params: any[]): Promise<any> {
+    return this.connection.query(statement, params);
+  }
+
+  async close(): Promise<void> {
+    await this.connection.$pool.end();
+  }
 }

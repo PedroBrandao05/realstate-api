@@ -6,5 +6,5 @@ export class Property {
     privateDescription!: string
     userId!: string
     ownerId!: string
-    publishDate!: string
+    publishDate!: Date
 }

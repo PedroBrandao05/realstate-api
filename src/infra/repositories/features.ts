@@ -1,13 +1,13 @@
 import { injectable, inject } from "inversify";
 import 'reflect-metadata'
 import IFeatureRepository from "../../domain/repositories/feature";
-import { IDatabaseDriver } from "../../application/contracts/databaseDriver";
 import { Feature } from "../../domain/entities/features";
+import IDatabaseConnection from "../../application/contracts/databaseConnection";
 
 @injectable()
 export default class FeatureRepository implements IFeatureRepository {
     constructor (
-        @inject('IDatabaseDriver') private readonly database: IDatabaseDriver
+        @inject('IDatabaseConnection') private readonly database: IDatabaseConnection
     ){}
 
     private toModel (data: any): Feature {
@@ -19,36 +19,32 @@ export default class FeatureRepository implements IFeatureRepository {
     }
 
     async findAllFeatures(): Promise<Feature[]> {
-        const data = await this.database.get('select * from feature')
-        let features : Feature[] = []
-        for (const feature of data) {
-            features.push(this.toModel(feature))
-        }
-        return features
+        const features = await this.database.query('select * from feature', [])
+        return features.map((feature: any) => this.toModel(feature))
     }
 
     async findById(id: string): Promise<Feature> {
-        const [feature] = await this.database.get(`select * from feature where id = '${id}'`)
+        const [feature] = await this.database.query(`select * from feature where id = $1`, [id])
         return this.toModel(feature)
     }
 
     async create(feature: Feature): Promise<void> {
-        await this.database.run(`
+        await this.database.query(`
         insert into feature (id, type, description)
-        values ('${feature.id}', '${feature.type}', '${feature.description}')
-        `)
+        values ($1, $2, $3)
+        `, [feature.id, feature.type, feature.description])
     }
 
     async update(feature: Feature): Promise<void> {
-        await this.database.run(`
+        await this.database.query(`
         update feature
-        set type = '${feature.type}',
-        set description = '${feature.description}'
-        where id = '${feature.id}'
-        `)
+        set type = $1,
+        description = $2
+        where id = $3
+        `, [feature.type, feature.description, feature.description])
     }
 
     async delete(id: string): Promise<void> {
-        await this.database.run(`delete from feature where id = '${id}'`)
+        await this.database.query(`delete from feature where id = $1`, [id])
     }
 }

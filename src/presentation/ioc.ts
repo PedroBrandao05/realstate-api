@@ -4,8 +4,6 @@ import IUuidGenerator from "../application/contracts/uuidGenerator";
 import IdGenerator from "../infra/utils/uuid";
 import { IOwnerService } from "../domain/services/owner";
 import OwnerService from "../application/services/owner";
-import { IDatabaseDriver } from "../application/contracts/databaseDriver";
-import DatabaseDriver from "../infra/db/postgre";
 import IHasher from "../application/contracts/hasher";
 import { Hasher } from "../infra/cryptograph/hasher";
 import IOwnerRepository from "../domain/repositories/owner";
@@ -20,16 +18,17 @@ import IFeatureRepository from "../domain/repositories/feature";
 import FeatureRepository from "../infra/repositories/features";
 import IPropertyFeaturesRepository from "../domain/repositories/propertyFeatures";
 import PropertyFeaturesRepository from "../infra/repositories/propertyFeatures";
-import InMemoryDatabase from "../infra/db/in-memory";
 import IJwt from "../application/contracts/jwt";
 import Jwt from "../infra/utils/jwt";
+import IDatabaseConnection from "../application/contracts/databaseConnection";
+import PgPromiseAdapter from "../infra/db/postgre";
 
 const iocContainer = new Container()
 iocContainer.bind<IUuidGenerator>('IUuidGenerator').to(IdGenerator)
 iocContainer.bind<IHasher>('IHasher').to(Hasher)
 iocContainer.bind<IOwnerRepository>('IOwnerRepository').to(OwnerRepository)
 iocContainer.bind<IOwnerService>('IOwnerService').to(OwnerService)
-iocContainer.bind<IDatabaseDriver>('IDatabaseDriver').to(InMemoryDatabase)
+iocContainer.bind<IDatabaseConnection>('IDatabaseConnection').to(PgPromiseAdapter)
 iocContainer.bind<IUserRepository>('IUserRepository').to(UserRepository)
 iocContainer.bind<IUserService>('IUserService').to(UserService)
 iocContainer.bind<IPropertyRepository>('IPropertyRepository').to(PropertyRepository)
