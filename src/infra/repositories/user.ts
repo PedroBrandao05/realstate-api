@@ -22,11 +22,11 @@ export default class UserRepository implements IUserRepository {
     }
 
     async create(user: User): Promise<void> {
-        await this.database.query('insert into user (id, name, email, password, phone, creci ) values ($1, $2, $3, $4, $5, $6)', [user.id, user.name, user.email, user.password, user.phone, user.creci])
+        await this.database.query('insert into users (id, name, email, password, phone, creci ) values ($1, $2, $3, $4, $5, $6)', [user.id, user.name, user.email, user.password, user.phone, user.creci])
     }
 
     async findByEmail(email: string): Promise<User | null> {
-        const [user] = await this.database.query('select * from user where email = $1', [email])
+        const [user] = await this.database.query('select * from users where email = $1', [email])
         if (!user) return null
         return this.toModel(user)
     }

@@ -1,10 +1,10 @@
-export interface IUserService {
-    signup (input: UserServiceDTO.signupInput): Promise<void>
-    signin (input: UserServiceDTO.signinInput): Promise<UserServiceDTO.signinOutput>
-    refreshToken (input: UserServiceDTO.refreshTokenInput): Promise<UserServiceDTO.refreshTokenOutput>
+export interface IAuthService {
+    signup (input: AuthServiceDTO.signupInput): Promise<void>
+    signin (input: AuthServiceDTO.signinInput): Promise<AuthServiceDTO.signinOutput>
+    refreshToken (input: AuthServiceDTO.refreshTokenInput): Promise<AuthServiceDTO.refreshTokenOutput>
 }
 
-export namespace UserServiceDTO {
+export namespace AuthServiceDTO {
     export type signupInput = {
         name: string,
         email: string,
@@ -12,12 +12,17 @@ export namespace UserServiceDTO {
         phone: number,
         creci: string
     }
+
     export type signinInput = {
         email: string,
         password: string
     }
+
     export type signinOutput = {
-        token: string
+        token: string,
+        email: string,
+        name: string,
+        phone: number
     }
 
     export type refreshTokenInput = {

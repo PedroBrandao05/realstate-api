@@ -1,30 +1,43 @@
-import nodemailer from 'nodemailer'
-import { injectable } from 'inversify'
-import { IMailer } from '../../application/contracts/mailer'
-import fs from 'fs'
-import { MailerServiceDTO } from '../../domain/services/mailer'
+import { MailerDTO, IMailer } from '../../application/contracts/mailer';
+import * as nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+import fs from 'fs';
+import 'reflect-metadata'
+import { injectable } from 'inversify';
 
-interface IMailConfigs {
-  port: number,
-  host: string,
-  auth: {
-    user: string,
-    pass: string
-  }
-}
-
-
+dotenv.config();
 
 @injectable()
 export default class Mailer implements IMailer {
-  private readonly transporter!: nodemailer.Transporter
-  private readonly fileSystem = fs
-  constructor()
-  {
-    
+  private readonly transporter!: nodemailer.Transporter;
+
+  constructor() {
+    this.transporter = nodemailer.createTransport({
+      host: process.env.MAIL_HOST,
+      port: process.env.MAIL_PORT,
+      secure: true,
+      auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASSWORD,
+      }
+    } as any);
   }
 
-  async send(data: MailerServiceDTO.sendEmailInput): Promise<void> {
-      
+  async send(input: MailerDTO.Mail): Promise<void> {
+    let html = fs.readFileSync(
+      `${__dirname}/template/${input.template}.html`,
+      'utf-8'
+    )
+    
+    for(const key in input.data) {
+      html = html.replace(`{{${key}}}`, input.data[key]);
+    }
+
+    await this.transporter.sendMail({
+      from: process.env.MAIL_FROM,
+      to: input.to,
+      subject: input.subject,
+      html
+    });
   }
 }

@@ -9,10 +9,11 @@ dotenv.config()
 const dbPassword = process.env.DB_PASSWORD
 const dbName = process.env.DB_NAME
 
+@injectable()
 export default class PgPromiseAdapter implements IDatabaseConnection {
   connection: any;
 
-  async connect(): Promise<void> {
+  constructor (){
     this.connection = pgp()(`postgres://postgres:${dbPassword}@localhost:5432/${dbName}`);
   }
   

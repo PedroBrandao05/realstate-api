@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificação de email</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Maven+Pro:wght@400;500;600;700&family=Poppins&display=swap');
+
+        .container {
+            background-color: aliceblue;
+            font-family: 'Poppins';
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 400px;
+            width: 600px;
+        }
+
+        h1 {
+            font-size: 18px;
+            color: blue
+        }
+
+        p {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Olá corretor(a) {{name}}</h1>
+        <p>Verifique seu email através do seguinte link: <a href="http://localhost:3000?hash={{hash}}">Verificar Email</a></p>
+    </div>
+</body>
+</html>
