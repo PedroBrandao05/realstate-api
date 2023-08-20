@@ -12,8 +12,8 @@ export default class OwnerService implements IOwnerService{
         @inject('IOwnerRepository') private readonly ownerRepository: IOwnerRepository
     ){}
 
-    async findById(id: string): Promise<Owner> {
-        const owner = this.ownerRepository.findById(id)
+    async findById(input: OwnerServiceDTO.findOwnerInput): Promise<Owner> {
+        const owner = this.ownerRepository.findById(input.ownerId)
         return owner 
     }
 
@@ -39,7 +39,7 @@ export default class OwnerService implements IOwnerService{
         await this.ownerRepository.update(owner)
     }
 
-    async deleteOne(id: string): Promise<void> {
-        await this.ownerRepository.delete(id)
+    async delete(input: OwnerServiceDTO.deleteOwnerInput): Promise<void> {
+        await this.ownerRepository.delete(input.ownerId)
     }
 }

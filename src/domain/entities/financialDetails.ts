@@ -1,4 +1,4 @@
-export class Financial {
+export class FinancialDetails {
     id!: string
     propertyId!: string
     sale!: boolean

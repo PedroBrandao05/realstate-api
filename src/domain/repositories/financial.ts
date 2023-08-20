@@ -1,8 +1,8 @@
-import { Financial } from "../entities/financial";
+import { FinancialDetails } from "../entities/financialDetails";
 
-export default interface IFinancialRepository {
-    findFinancialInfo (propertyId: string) : Promise<Financial>
-    create (financial: Financial): Promise<void>
-    update (financial: Financial): Promise<void>
+export default interface IFinancialDetailsRepository {
+    findFinancialDetails (propertyId: string) : Promise<FinancialDetails>
+    create (financialDetails: FinancialDetails): Promise<void>
+    update (financialDetails: FinancialDetails): Promise<void>
     delete (id: string): Promise<void>
 }

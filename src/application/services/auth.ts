@@ -72,15 +72,14 @@ export default class AuthService implements IAuthService {
     }
 
     async refreshToken(input: AuthServiceDTO.refreshTokenInput): Promise<AuthServiceDTO.refreshTokenOutput> {
-        const pastSession = this.tokenGenerator.verify(input.token)
+        const [ , splitedToken] = input.token.split(' ')
+        const pastSession = this.tokenGenerator.verify(splitedToken)
         if (!pastSession) throw new ApplicationError("This token is invalid", 400)
-        const user = await this.userRepository.findByEmail(pastSession.email)
-        if (!user) throw new ApplicationError("User on session does not exist", 400)
+        const exists = await this.userRepository.findByEmail(pastSession.email)
+        if (!exists) throw new ApplicationError("User on session does not exist", 400)
 
-        const token = this.tokenGenerator.generate({email: user.email, name: user.name, phone: user.phone})
+        const token = this.tokenGenerator.generate({email: exists.email, name: exists.name, phone: exists.phone})
 
-        return {
-            token
-        }
+        return {token, email: exists.email, phone: exists.phone, name: exists.name}
     }
 }

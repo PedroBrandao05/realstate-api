@@ -1,6 +1,6 @@
 export class Owner {
     id!: string
     name!: string
-    phone!: number
+    phone!: string
     email!: string
 }

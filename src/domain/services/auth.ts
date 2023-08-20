@@ -30,6 +30,9 @@ export namespace AuthServiceDTO {
     }
 
     export type refreshTokenOutput = {
-        token: string
+        token: string,
+        email: string,
+        name: string,
+        phone: number
     }
 }

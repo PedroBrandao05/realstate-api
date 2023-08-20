@@ -1,0 +1,1 @@
+export type Usecase = (input: any) => Promise<any>
