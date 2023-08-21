@@ -18,9 +18,24 @@ export default class ExpressAdapter implements IHTTPServer {
     this.app[method](url, async (req: Request, res: Response) => {
       try {
         const output = await callback(req.params, req.body, req.headers, req.query);
-        res.status(200).json(output);
+        res.status(output.code).json(output.response);
       } catch (error: any) {
-        res.status(422).json({
+
+        res.status(error.code || 500).json({
+          message: error.message,
+        })
+      }
+    })
+  }
+
+  middleware(method: string, url: string, middleware: Function, callback: Function): void {
+    this.app[method](url, middleware, async (req: Request, res: Response) => {
+      try {
+        const output = await callback(req.params, req.body, req.headers, req.query);
+        res.status(output.code).json(output.response);
+      } catch (error: any) {
+
+        res.status(error.code || 500).json({
           message: error.message,
         })
       }

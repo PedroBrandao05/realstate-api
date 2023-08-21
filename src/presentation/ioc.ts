@@ -28,6 +28,8 @@ import ITicketRepository from "../domain/repositories/ticket";
 import TicketRepository from "../infra/repositories/ticket";
 import { IMailer } from "../application/contracts/mailer";
 import Mailer from "../infra/mailer/nodemailer";
+import IMediaHandler from "../application/contracts/mediaHandler";
+import Multer from "../infra/mediaHandler/multer";
 
 const iocContainer = new Container()
 iocContainer.bind<IUuidGenerator>('IUuidGenerator').to(IdGenerator)
@@ -44,5 +46,6 @@ iocContainer.bind<IJwt>('IJwt').to(Jwt)
 iocContainer.bind<IHTTPServer>('IHTTPServer').to(ExpressAdapter)
 iocContainer.bind<ITicketRepository>('ITicketRepository').to(TicketRepository)
 iocContainer.bind<IMailer>('IMailer').to(Mailer)
+iocContainer.bind<IMediaHandler>('IMediaHandler').to(Multer)
 
 export { iocContainer }
