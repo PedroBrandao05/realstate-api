@@ -8,13 +8,13 @@ import IMediaHandler from '../../application/contracts/mediaHandler'
 
 const tmpFolder = path.resolve(__dirname, '..', '..', '..', 'temp')
 
-const multerConfig = {
+export const multerConfig = {
     directory: tmpFolder,
     storage: multer.diskStorage({
         destination: tmpFolder,
         filename(req, file, callback) {
-            const filehash = crypto.randomBytes(10).toString('hex')
-            const filename = `${filehash}-${file.originalname}`
+            const fileHash = req.params.id 
+            const filename = `${fileHash}-${file.originalname}`
 
             return callback(null, filename)
         },

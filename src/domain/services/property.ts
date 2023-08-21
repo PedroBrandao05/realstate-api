@@ -1,11 +1,12 @@
 import { Media } from "../entities/property"
 
-export default interface PropertyService {
+export default interface IPropertyService {
     create (input: PropertyServiceDTO.CreatePropertyInput): Promise<PropertyServiceDTO.CreatePropertyOutput>
     populateMedia (input: PropertyServiceDTO.PopulatePropertyMediaInput): Promise<void>
+    removeMedia (input: PropertyServiceDTO.RemovePropertyMediaInput): Promise<void>
     update (input: PropertyServiceDTO.UpdatePropertyInput): Promise<void>
-    getProperty (id: string): Promise<PropertyServiceDTO.GetPropertyOutput>
-    delete (id: string): Promise<void>
+    get (input: PropertyServiceDTO.GetPropertyInput): Promise<PropertyServiceDTO.GetPropertyOutput>
+    delete (input: PropertyServiceDTO.DeletePropertyInput): Promise<void>
 }
 
 export namespace PropertyServiceDTO {
@@ -27,11 +28,21 @@ export namespace PropertyServiceDTO {
         media: Media[]
     }
 
+    export type RemovePropertyMediaInput = {
+        propertyId: string,
+        media: Media[]
+    }
+
     export type UpdatePropertyInput = {
+        propertyId: string,
         title: string,
         privateTitle: string,
         description: string,
         privateDescription: string,
+    }
+
+    export type GetPropertyInput = {
+        propertyId: string
     }
 
     export type GetPropertyOutput = {
@@ -44,5 +55,9 @@ export namespace PropertyServiceDTO {
         userId: string,
         ownerId: string,
         publishDate: string
+    }
+
+    export type DeletePropertyInput = {
+        propertyId: string
     }
 }

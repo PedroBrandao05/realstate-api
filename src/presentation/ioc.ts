@@ -30,6 +30,8 @@ import { IMailer } from "../application/contracts/mailer";
 import Mailer from "../infra/mailer/nodemailer";
 import IMediaHandler from "../application/contracts/mediaHandler";
 import Multer from "../infra/mediaHandler/multer";
+import IStorage from "../application/contracts/storage";
+import S3Storage from "../infra/storage/S3";
 
 const iocContainer = new Container()
 iocContainer.bind<IUuidGenerator>('IUuidGenerator').to(IdGenerator)
@@ -47,5 +49,6 @@ iocContainer.bind<IHTTPServer>('IHTTPServer').to(ExpressAdapter)
 iocContainer.bind<ITicketRepository>('ITicketRepository').to(TicketRepository)
 iocContainer.bind<IMailer>('IMailer').to(Mailer)
 iocContainer.bind<IMediaHandler>('IMediaHandler').to(Multer)
+iocContainer.bind<IStorage>('IStorage').to(S3Storage)
 
 export { iocContainer }
