@@ -1,8 +1,8 @@
-export class Infrastructure {
+export class InfrastructureDetails {
     id!: string
     propertyId!: string
-    type!: string
-    subtype!: string
+    propertyType!: string
+    propertySubtype!: string
     bathrooms!: number
     sleepingRooms!: number
     garageSpots!: number

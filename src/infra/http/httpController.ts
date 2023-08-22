@@ -99,7 +99,7 @@ export default class HTTPController {
             const token = headers.authorization
             const files = await findFilesInDirectory('temp')
             const media = files.map((file) => {return {url: file}})
-            const input = {token, id: params.id, media}
+            const input = {...params, token, media}
             const PopulatePropertyMedia = usecaseFactory.createPopulatePropertyMedia()
             const output = await PopulatePropertyMedia(input)
             return {code: 204, response: output}
@@ -111,6 +111,38 @@ export default class HTTPController {
             const RemovePropertyMedia = usecaseFactory.createRemovePropertyMedia()
             const output = await RemovePropertyMedia(body)
             return {code: 200, response: output}
+        })
+
+        httpServer.on("post", "/save-infrastructure-details", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const SaveInfrastructureDetails = usecaseFactory.createSaveInfrastructureDetails()
+            const output = await SaveInfrastructureDetails(body)
+            return {code: 201, response: output}
+        })
+
+        httpServer.on("get", "/get-infrastructure-details", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const GetInfrastructureDetails = usecaseFactory.createGetInfrastructureDetails()
+            const output = await GetInfrastructureDetails(body)
+            return {code: 200, response: output}
+        })
+
+        httpServer.on("patch", "/update-infrastructure-details", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const UpdateInfrastructureDetails = usecaseFactory.createUpdateInfrastructureDetails()
+            const output = await UpdateInfrastructureDetails(body)
+            return {code: 204, response: output}
+        })
+
+        httpServer.on("delete", "/delete-infrastructure-details", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const DeleteInfrastructureDetails = usecaseFactory.createDeleteInfrastructureDetails()
+            const output = await DeleteInfrastructureDetails(body)
+            return {code: 201, response: output}
         })
     } 
 }

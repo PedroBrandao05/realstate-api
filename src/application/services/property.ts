@@ -41,7 +41,6 @@ export default class PropertyService implements IPropertyService {
     async populateMedia(input: PropertyServiceDTO.PopulatePropertyMediaInput): Promise<void> {
         const property = await this.propertyRepository.findById(input.id)
         if (!property) throw new ApplicationError("This property doesn't exist", 400)
-        console.log(input.media)
         for (const media of input.media) {
             await this.storage.send(media.url)
             await this.storage.dispatch(media.url)

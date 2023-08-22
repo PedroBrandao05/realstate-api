@@ -2,6 +2,7 @@ import { Usecase } from "../../application/contracts/usecase";
 import ValidateTicket from "../../application/decorators/validateTicket";
 import ValidateToken from "../../application/decorators/validateToken";
 import { AuthServiceDTO, IAuthService } from "../../domain/services/auth";
+import IInfrastructureDetailsService, { InfrastructureDetailsDTO } from "../../domain/services/infrastructureDetails";
 import { IOwnerService, OwnerServiceDTO } from "../../domain/services/owner";
 import IPropertyService, { PropertyServiceDTO } from "../../domain/services/property";
 import { iocContainer } from "../../presentation/ioc";
@@ -9,6 +10,7 @@ import { iocContainer } from "../../presentation/ioc";
 const AuthService = iocContainer.get<IAuthService>('IAuthService')
 const OwnerService = iocContainer.get<IOwnerService>('IOwnerService')
 const PropertyService = iocContainer.get<IPropertyService>('IPropertyService')
+const InfrastructureDetailsService = iocContainer.get<IInfrastructureDetailsService>('IInfrastructureDetailsService')
 
 export default class UsecaseFactory {
 
@@ -74,6 +76,26 @@ export default class UsecaseFactory {
 
     createDeleteProperty () {
         const usecase = async (input: any) => {return await ValidateToken(input, async (input: PropertyServiceDTO.DeletePropertyInput) => {return await PropertyService.delete(input)})}
+        return usecase
+    }
+
+    createSaveInfrastructureDetails (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: InfrastructureDetailsDTO.SaveInfrastructureDetailsInput) => {return await InfrastructureDetailsService.save(input)})}
+        return usecase
+    }
+
+    createGetInfrastructureDetails (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: InfrastructureDetailsDTO.GetInfrastructureDetailsInput) => {return await InfrastructureDetailsService.get(input)})}
+        return usecase
+    }
+
+    createUpdateInfrastructureDetails (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: InfrastructureDetailsDTO.UpdateInfrastructureDetailsInput) => {return await InfrastructureDetailsService.update(input)})}
+        return usecase
+    }
+
+    createDeleteInfrastructureDetails (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: InfrastructureDetailsDTO.DeleteInfrastructureDetailsInput) => {return await InfrastructureDetailsService.delete(input)})}
         return usecase
     }
 }

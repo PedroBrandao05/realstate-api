@@ -34,6 +34,10 @@ import IStorage from "../application/contracts/storage";
 import S3Storage from "../infra/storage/S3";
 import IPropertyService from "../domain/services/property";
 import PropertyService from "../application/services/property";
+import IInfrastructureDetailsRepository from "../domain/repositories/infrastructureDetails";
+import InfrastructureDetailsRepository from "../infra/repositories/infrastructureDetails";
+import IInfrastructureDetailsService from "../domain/services/infrastructureDetails";
+import InfrastructureDetailsService from "../application/services/infrastructureDetails";
 
 const iocContainer = new Container()
 iocContainer.bind<IUuidGenerator>('IUuidGenerator').to(IdGenerator)
@@ -53,5 +57,7 @@ iocContainer.bind<ITicketRepository>('ITicketRepository').to(TicketRepository)
 iocContainer.bind<IMailer>('IMailer').to(Mailer)
 iocContainer.bind<IMediaHandler>('IMediaHandler').to(Multer)
 iocContainer.bind<IStorage>('IStorage').to(S3Storage)
+iocContainer.bind<IInfrastructureDetailsRepository>('IInfrastructureDetailsRepository').to(InfrastructureDetailsRepository)
+iocContainer.bind<IInfrastructureDetailsService>('IInfrastructureDetailsService').to(InfrastructureDetailsService)
 
 export { iocContainer }
