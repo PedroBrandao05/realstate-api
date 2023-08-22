@@ -10,6 +10,7 @@ import { ApplicationError } from '../../domain/error/application'
 import { Property } from '../../domain/entities/property'
 import convertDateToString from '../utils/convertDateToString'
 
+@injectable()
 export default class PropertyService implements IPropertyService {
     constructor(
        @inject('IOwnerRepository') private readonly ownerRepository: IOwnerRepository,
@@ -38,8 +39,9 @@ export default class PropertyService implements IPropertyService {
     }
 
     async populateMedia(input: PropertyServiceDTO.PopulatePropertyMediaInput): Promise<void> {
-        const property = await this.propertyRepository.findById(input.propertyId)
+        const property = await this.propertyRepository.findById(input.id)
         if (!property) throw new ApplicationError("This property doesn't exist", 400)
+        console.log(input.media)
         for (const media of input.media) {
             await this.storage.send(media.url)
             await this.storage.dispatch(media.url)
@@ -52,6 +54,7 @@ export default class PropertyService implements IPropertyService {
         const property = await this.propertyRepository.findById(input.propertyId)
         if (!property) throw new ApplicationError("This property doesn't exist", 400)
         for (const media of input.media) {
+            await this.storage.remove(media.url)
             const index = property.media.findIndex(mediaInProperty => mediaInProperty.url === media.url)
             property.media.splice(index, 1)
         }

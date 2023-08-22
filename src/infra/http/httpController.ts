@@ -3,6 +3,7 @@ import IHTTPServer from "../../application/contracts/httpServer";
 import 'reflect-metadata'
 import UsecaseFactory from "../factory/usecaseFactory";
 import IMediaHandler from "../../application/contracts/mediaHandler";
+import findFilesInDirectory from "../../application/utils/findFilesInDirectory";
 
 const usecaseFactory = new UsecaseFactory()
 
@@ -62,9 +63,54 @@ export default class HTTPController {
             return {code: 200, response: output}
         })
 
-        httpServer.middleware('post', "/test-images", mediaHandler.save('single', 'images'), async (params: any, body: any, headers: any) => {
-        
-            return {code: 200, response: "Deu certo"}
+        httpServer.on("post", "/save-property", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const SaveProperty = usecaseFactory.createSaveProperty()
+            const output = await SaveProperty(body)
+            return {code: 201, response: output}
+        })
+
+        httpServer.on("get", "/get-property", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const GetProperty = usecaseFactory.createGetProperty()
+            const output = await GetProperty(body)
+            return {code: 200, response: output}
+        })
+
+        httpServer.on("patch", "/update-property", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const UpdateProperty = usecaseFactory.createUpdateProperty()
+            const output = await UpdateProperty(body)
+            return {code: 204, response: output}
+        })
+
+        httpServer.on("delete", "/delete-property", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const DeleteProperty = usecaseFactory.createDeleteProperty()
+            const output = await DeleteProperty(body)
+            return {code: 200, response: output}
+        })
+
+        httpServer.middleware("patch", "/upload-property-media/:id", this.mediaHandler.save('array', 'images'), async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            const files = await findFilesInDirectory('temp')
+            const media = files.map((file) => {return {url: file}})
+            const input = {token, id: params.id, media}
+            const PopulatePropertyMedia = usecaseFactory.createPopulatePropertyMedia()
+            const output = await PopulatePropertyMedia(input)
+            return {code: 204, response: output}
+        })
+
+        httpServer.on("patch", "/remove-property-media",  async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const RemovePropertyMedia = usecaseFactory.createRemovePropertyMedia()
+            const output = await RemovePropertyMedia(body)
+            return {code: 200, response: output}
         })
     } 
 }

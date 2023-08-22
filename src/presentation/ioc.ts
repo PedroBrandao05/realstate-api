@@ -32,6 +32,8 @@ import IMediaHandler from "../application/contracts/mediaHandler";
 import Multer from "../infra/mediaHandler/multer";
 import IStorage from "../application/contracts/storage";
 import S3Storage from "../infra/storage/S3";
+import IPropertyService from "../domain/services/property";
+import PropertyService from "../application/services/property";
 
 const iocContainer = new Container()
 iocContainer.bind<IUuidGenerator>('IUuidGenerator').to(IdGenerator)
@@ -42,6 +44,7 @@ iocContainer.bind<IDatabaseConnection>('IDatabaseConnection').to(PgPromiseAdapte
 iocContainer.bind<IUserRepository>('IUserRepository').to(UserRepository)
 iocContainer.bind<IAuthService>('IAuthService').to(AuthService)
 iocContainer.bind<IPropertyRepository>('IPropertyRepository').to(PropertyRepository)
+iocContainer.bind<IPropertyService>('IPropertyService').to(PropertyService)
 iocContainer.bind<IFeatureRepository>('IFeatureRepository').to(FeatureRepository)
 iocContainer.bind<IPropertyFeaturesRepository>('IPropertyFeaturesRepository').to(PropertyFeaturesRepository)
 iocContainer.bind<IJwt>('IJwt').to(Jwt)

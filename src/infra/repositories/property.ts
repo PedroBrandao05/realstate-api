@@ -25,9 +25,10 @@ export default class PropertyRepository implements IPropertyRepository {
     }
 
     async create(property: Property): Promise<void> {
+        const media = {media: []}
         await this.database.query(`
         insert into property (id, title, private_title, description, private_description, media, user_id, owner_id, publish_date) 
-        values ($1, $2, $3, $4, $5, $6, $7, $8, $9)`, [property.id, property.title, property.privateTitle, property.description, {media: []}, property.privateDescription, property.userId, property.ownerId, property.publishDate])
+        values ($1, $2, $3, $4, $5, $6, $7, $8, $9)`, [property.id, property.title, property.privateTitle, property.description, property.privateDescription, media, property.userId, property.ownerId, property.publishDate])
     }
 
     async findAll(): Promise<Property[]> {
@@ -41,15 +42,17 @@ export default class PropertyRepository implements IPropertyRepository {
     }
 
     async update(property: Property): Promise<void> {
+        const media = {media: property.media}
+
         await this.database.query(`
         update property
-        set title = $1 
-        private_title = $2
-        description = $3
-        private_description = $4
+        set title = $1, 
+        private_title = $2,
+        description = $3,
+        private_description = $4,
         media = $5
         where id = $6
-        `, [property.title, property.privateTitle, property.description, property.privateDescription, property.ownerId, {media: property.media}, property.id])
+        `, [property.title, property.privateTitle, property.description, property.privateDescription, media, property.id])
     }
 
     async delete(id: string): Promise<void> {

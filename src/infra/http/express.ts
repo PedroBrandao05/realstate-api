@@ -21,7 +21,7 @@ export default class ExpressAdapter implements IHTTPServer {
         res.status(output.code).json(output.response);
       } catch (error: any) {
 
-        res.status(error.code || 500).json({
+        res.status(422).json({
           message: error.message,
         })
       }
@@ -35,7 +35,7 @@ export default class ExpressAdapter implements IHTTPServer {
         res.status(output.code).json(output.response);
       } catch (error: any) {
 
-        res.status(error.code || 500).json({
+        res.status(422).json({
           message: error.message,
         })
       }

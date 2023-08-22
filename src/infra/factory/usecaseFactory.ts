@@ -3,10 +3,12 @@ import ValidateTicket from "../../application/decorators/validateTicket";
 import ValidateToken from "../../application/decorators/validateToken";
 import { AuthServiceDTO, IAuthService } from "../../domain/services/auth";
 import { IOwnerService, OwnerServiceDTO } from "../../domain/services/owner";
+import IPropertyService, { PropertyServiceDTO } from "../../domain/services/property";
 import { iocContainer } from "../../presentation/ioc";
 
 const AuthService = iocContainer.get<IAuthService>('IAuthService')
 const OwnerService = iocContainer.get<IOwnerService>('IOwnerService')
+const PropertyService = iocContainer.get<IPropertyService>('IPropertyService')
 
 export default class UsecaseFactory {
 
@@ -42,6 +44,36 @@ export default class UsecaseFactory {
 
     createDeleteOwner () {
         const usecase = async (input: any) => {return await ValidateToken(input, async (input: OwnerServiceDTO.deleteOwnerInput) => {return await OwnerService.delete(input)})}
+        return usecase
+    }
+
+    createSaveProperty () {
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: PropertyServiceDTO.CreatePropertyInput) => {return await PropertyService.create(input)})}
+        return usecase
+    }
+
+    createPopulatePropertyMedia () {
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: PropertyServiceDTO.PopulatePropertyMediaInput) => {return await PropertyService.populateMedia(input)})}
+        return usecase
+    }
+
+    createRemovePropertyMedia () {
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: PropertyServiceDTO.RemovePropertyMediaInput) => {return await PropertyService.removeMedia(input)})}
+        return usecase
+    }
+
+    createGetProperty () {
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: PropertyServiceDTO.GetPropertyInput) => {return await PropertyService.get(input)})}
+        return usecase
+    }
+
+    createUpdateProperty () {
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: PropertyServiceDTO.UpdatePropertyInput) => {return await PropertyService.update(input)})}
+        return usecase
+    }
+
+    createDeleteProperty () {
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: PropertyServiceDTO.DeletePropertyInput) => {return await PropertyService.delete(input)})}
         return usecase
     }
 }

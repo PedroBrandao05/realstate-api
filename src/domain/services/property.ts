@@ -24,7 +24,7 @@ export namespace PropertyServiceDTO {
     }
 
     export type PopulatePropertyMediaInput = {
-        propertyId: string
+        id: string
         media: Media[]
     }
 
