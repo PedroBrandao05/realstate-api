@@ -1,9 +1,15 @@
+export enum PurchaseMethods {
+    FINANCING = 'financing',
+    CASH = 'cash',
+    NONE = 'none'
+}
+
 export class FinancialDetails {
     id!: string
     propertyId!: string
     sale!: boolean
     rent!: boolean
-    purchaseMethod!: 'financing' | 'cash'
+    purchaseMethod!: PurchaseMethods
     saleCost!: number
     rentCost!: number
     purchasingDetails!: string

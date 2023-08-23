@@ -144,5 +144,37 @@ export default class HTTPController {
             const output = await DeleteInfrastructureDetails(body)
             return {code: 201, response: output}
         })
+
+        httpServer.on("post", "/save-financial-details", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const SaveFinancialDetails = usecaseFactory.createSaveFinancialDetails()
+            const output = await SaveFinancialDetails(body)
+            return {code: 201, response: output}
+        })
+
+        httpServer.on("get", "/get-financial-details", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const GetFinancialDetails = usecaseFactory.createGetFinancialDetails()
+            const output = await GetFinancialDetails(body)
+            return {code: 200, response: output}
+        })
+
+        httpServer.on("patch", "/update-financial-details", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const UpdateFinancialDetails = usecaseFactory.createUpdateFinancialDetails()
+            const output = await UpdateFinancialDetails(body)
+            return {code: 204, response: output}
+        })
+
+        httpServer.on("delete", "/delete-financial-details", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const DeleteFinancialDetails = usecaseFactory.createDeleteFinancialDetails()
+            const output = await DeleteFinancialDetails(body)
+            return {code: 201, response: output}
+        })
     } 
 }

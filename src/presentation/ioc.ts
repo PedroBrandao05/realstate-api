@@ -38,6 +38,10 @@ import IInfrastructureDetailsRepository from "../domain/repositories/infrastruct
 import InfrastructureDetailsRepository from "../infra/repositories/infrastructureDetails";
 import IInfrastructureDetailsService from "../domain/services/infrastructureDetails";
 import InfrastructureDetailsService from "../application/services/infrastructureDetails";
+import IFinancialDetailsRepository from "../domain/repositories/financialDetails";
+import FinancialDetailsRepository from "../infra/repositories/financialDetails";
+import IFinancialDetailsService from "../domain/services/financialDetails";
+import FinancialDetailsService from "../application/services/financialDetails";
 
 const iocContainer = new Container()
 iocContainer.bind<IUuidGenerator>('IUuidGenerator').to(IdGenerator)
@@ -59,5 +63,7 @@ iocContainer.bind<IMediaHandler>('IMediaHandler').to(Multer)
 iocContainer.bind<IStorage>('IStorage').to(S3Storage)
 iocContainer.bind<IInfrastructureDetailsRepository>('IInfrastructureDetailsRepository').to(InfrastructureDetailsRepository)
 iocContainer.bind<IInfrastructureDetailsService>('IInfrastructureDetailsService').to(InfrastructureDetailsService)
+iocContainer.bind<IFinancialDetailsRepository>('IFinancialDetailsRepository').to(FinancialDetailsRepository)
+iocContainer.bind<IFinancialDetailsService>('IFinancialDetailsService').to(FinancialDetailsService)
 
 export { iocContainer }

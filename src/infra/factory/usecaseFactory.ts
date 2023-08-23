@@ -2,6 +2,7 @@ import { Usecase } from "../../application/contracts/usecase";
 import ValidateTicket from "../../application/decorators/validateTicket";
 import ValidateToken from "../../application/decorators/validateToken";
 import { AuthServiceDTO, IAuthService } from "../../domain/services/auth";
+import IFinancialDetailsService, { FinancialDetailsDTO } from "../../domain/services/financialDetails";
 import IInfrastructureDetailsService, { InfrastructureDetailsDTO } from "../../domain/services/infrastructureDetails";
 import { IOwnerService, OwnerServiceDTO } from "../../domain/services/owner";
 import IPropertyService, { PropertyServiceDTO } from "../../domain/services/property";
@@ -11,6 +12,7 @@ const AuthService = iocContainer.get<IAuthService>('IAuthService')
 const OwnerService = iocContainer.get<IOwnerService>('IOwnerService')
 const PropertyService = iocContainer.get<IPropertyService>('IPropertyService')
 const InfrastructureDetailsService = iocContainer.get<IInfrastructureDetailsService>('IInfrastructureDetailsService')
+const FinancialDetailsService = iocContainer.get<IFinancialDetailsService>('IFinancialDetailsService')
 
 export default class UsecaseFactory {
 
@@ -96,6 +98,26 @@ export default class UsecaseFactory {
 
     createDeleteInfrastructureDetails (){
         const usecase = async (input: any) => {return await ValidateToken(input, async (input: InfrastructureDetailsDTO.DeleteInfrastructureDetailsInput) => {return await InfrastructureDetailsService.delete(input)})}
+        return usecase
+    }
+
+    createSaveFinancialDetails (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: FinancialDetailsDTO.SaveFinancialDetailsInput) => {return await FinancialDetailsService.save(input)})}
+        return usecase
+    }
+
+    createGetFinancialDetails (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: FinancialDetailsDTO.GetFinancialDetailsInput) => {return await FinancialDetailsService.get(input)})}
+        return usecase
+    }
+
+    createUpdateFinancialDetails (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: FinancialDetailsDTO.UpdateFinancialDetailsInput) => {return await FinancialDetailsService.update(input)})}
+        return usecase
+    }
+
+    createDeleteFinancialDetails (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: FinancialDetailsDTO.DeleteFinancialDetailsInput) => {return await FinancialDetailsService.delete(input)})}
         return usecase
     }
 }
