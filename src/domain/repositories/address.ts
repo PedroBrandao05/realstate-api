@@ -1,8 +1,8 @@
 import { Address } from "../entities/address";
 
 export default interface IAddressRepository {
-    findAddressInfo (propertyId: string): Promise<Address>
+    findAddressByPropertyId (propertyId: string): Promise<Address | undefined>
     create (address: Address): Promise<void>
     update (address: Address): Promise<void>
-    delete (id: string): Promise<void>
+    delete (propertyId: string): Promise<void>
 }

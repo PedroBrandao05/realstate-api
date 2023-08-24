@@ -42,6 +42,10 @@ import IFinancialDetailsRepository from "../domain/repositories/financialDetails
 import FinancialDetailsRepository from "../infra/repositories/financialDetails";
 import IFinancialDetailsService from "../domain/services/financialDetails";
 import FinancialDetailsService from "../application/services/financialDetails";
+import IAddressRepository from "../domain/repositories/address";
+import AddressRepository from "../infra/repositories/address";
+import IAddressService from "../domain/services/address";
+import AddressService from "../application/services/address";
 
 const iocContainer = new Container()
 iocContainer.bind<IUuidGenerator>('IUuidGenerator').to(IdGenerator)
@@ -65,5 +69,7 @@ iocContainer.bind<IInfrastructureDetailsRepository>('IInfrastructureDetailsRepos
 iocContainer.bind<IInfrastructureDetailsService>('IInfrastructureDetailsService').to(InfrastructureDetailsService)
 iocContainer.bind<IFinancialDetailsRepository>('IFinancialDetailsRepository').to(FinancialDetailsRepository)
 iocContainer.bind<IFinancialDetailsService>('IFinancialDetailsService').to(FinancialDetailsService)
+iocContainer.bind<IAddressRepository>('IAddressRepository').to(AddressRepository)
+iocContainer.bind<IAddressService>('IAddressService').to(AddressService)
 
 export { iocContainer }

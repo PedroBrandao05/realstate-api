@@ -1,11 +1,11 @@
 export class Address {
     id!: string
     propertyId!: string
-    cep!: number
+    cep!: string
     state!: string
     city!: string
     district!: string
     street!: string
-    number!: number
+    number!: string
     complement!: string
 }

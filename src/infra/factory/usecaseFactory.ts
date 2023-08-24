@@ -1,6 +1,7 @@
 import { Usecase } from "../../application/contracts/usecase";
 import ValidateTicket from "../../application/decorators/validateTicket";
 import ValidateToken from "../../application/decorators/validateToken";
+import IAddressService, { AddressServiceDTO } from "../../domain/services/address";
 import { AuthServiceDTO, IAuthService } from "../../domain/services/auth";
 import IFinancialDetailsService, { FinancialDetailsDTO } from "../../domain/services/financialDetails";
 import IInfrastructureDetailsService, { InfrastructureDetailsDTO } from "../../domain/services/infrastructureDetails";
@@ -13,6 +14,7 @@ const OwnerService = iocContainer.get<IOwnerService>('IOwnerService')
 const PropertyService = iocContainer.get<IPropertyService>('IPropertyService')
 const InfrastructureDetailsService = iocContainer.get<IInfrastructureDetailsService>('IInfrastructureDetailsService')
 const FinancialDetailsService = iocContainer.get<IFinancialDetailsService>('IFinancialDetailsService')
+const AddressService = iocContainer.get<IAddressService>('IAddressService')
 
 export default class UsecaseFactory {
 
@@ -118,6 +120,26 @@ export default class UsecaseFactory {
 
     createDeleteFinancialDetails (){
         const usecase = async (input: any) => {return await ValidateToken(input, async (input: FinancialDetailsDTO.DeleteFinancialDetailsInput) => {return await FinancialDetailsService.delete(input)})}
+        return usecase
+    }
+
+    createSaveAddress (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: AddressServiceDTO.SaveAddressInput) => {return await AddressService.save(input)})}
+        return usecase
+    }
+
+    createGetAddress (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: AddressServiceDTO.GetAddressInput) => {return await AddressService.get(input)})}
+        return usecase
+    }
+
+    createUpdateAddress (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: AddressServiceDTO.UpdateAddressInput) => {return await AddressService.update(input)})}
+        return usecase
+    }
+
+    createDeleteAddress (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: AddressServiceDTO.DeleteAddressInput) => {return await AddressService.delete(input)})}
         return usecase
     }
 }

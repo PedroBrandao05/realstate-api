@@ -176,5 +176,37 @@ export default class HTTPController {
             const output = await DeleteFinancialDetails(body)
             return {code: 201, response: output}
         })
+
+        httpServer.on("post", "/save-address", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const SaveAddress = usecaseFactory.createSaveAddress()
+            const output = await SaveAddress(body)
+            return {code: 201, response: output}
+        })
+
+        httpServer.on("get", "/get-address", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const GetAddress = usecaseFactory.createGetAddress()
+            const output = await GetAddress(body)
+            return {code: 200, response: output}
+        })
+
+        httpServer.on("patch", "/update-address", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const UpdateAddress = usecaseFactory.createUpdateAddress()
+            const output = await UpdateAddress(body)
+            return {code: 204, response: output}
+        })
+
+        httpServer.on("delete", "/delete-address", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const DeleteAddress = usecaseFactory.createDeleteAddress()
+            const output = await DeleteAddress(body)
+            return {code: 201, response: output}
+        })
     } 
 }
