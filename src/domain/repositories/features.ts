@@ -1,6 +1,6 @@
 import { Feature } from "../entities/features";
 
-export default interface IFeatureRepository {
+export default interface IFeaturesRepository {
     findAllFeatures (): Promise<Feature[]>
     findById (id: string): Promise<Feature>
     create (feature: Feature): Promise<void>

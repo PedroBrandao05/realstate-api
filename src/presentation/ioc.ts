@@ -14,8 +14,8 @@ import IUserRepository from "../domain/repositories/user";
 import UserRepository from "../infra/repositories/user";
 import IPropertyRepository from "../domain/repositories/property";
 import PropertyRepository from "../infra/repositories/property";
-import IFeatureRepository from "../domain/repositories/feature";
-import FeatureRepository from "../infra/repositories/features";
+import IFeaturesRepository from "../domain/repositories/features";
+import FeaturesRepository from "../infra/repositories/features";
 import IPropertyFeaturesRepository from "../domain/repositories/propertyFeatures";
 import PropertyFeaturesRepository from "../infra/repositories/propertyFeatures";
 import IJwt from "../application/contracts/jwt";
@@ -46,6 +46,8 @@ import IAddressRepository from "../domain/repositories/address";
 import AddressRepository from "../infra/repositories/address";
 import IAddressService from "../domain/services/address";
 import AddressService from "../application/services/address";
+import IFeaturesService from "../domain/services/features";
+import FeaturesService from "../application/services/features";
 
 const iocContainer = new Container()
 iocContainer.bind<IUuidGenerator>('IUuidGenerator').to(IdGenerator)
@@ -57,7 +59,7 @@ iocContainer.bind<IUserRepository>('IUserRepository').to(UserRepository)
 iocContainer.bind<IAuthService>('IAuthService').to(AuthService)
 iocContainer.bind<IPropertyRepository>('IPropertyRepository').to(PropertyRepository)
 iocContainer.bind<IPropertyService>('IPropertyService').to(PropertyService)
-iocContainer.bind<IFeatureRepository>('IFeatureRepository').to(FeatureRepository)
+iocContainer.bind<IFeaturesRepository>('IFeaturesRepository').to(FeaturesRepository)
 iocContainer.bind<IPropertyFeaturesRepository>('IPropertyFeaturesRepository').to(PropertyFeaturesRepository)
 iocContainer.bind<IJwt>('IJwt').to(Jwt)
 iocContainer.bind<IHTTPServer>('IHTTPServer').to(ExpressAdapter)
@@ -71,5 +73,6 @@ iocContainer.bind<IFinancialDetailsRepository>('IFinancialDetailsRepository').to
 iocContainer.bind<IFinancialDetailsService>('IFinancialDetailsService').to(FinancialDetailsService)
 iocContainer.bind<IAddressRepository>('IAddressRepository').to(AddressRepository)
 iocContainer.bind<IAddressService>('IAddressService').to(AddressService)
+iocContainer.bind<IFeaturesService>('IFeaturesService').to(FeaturesService)
 
 export { iocContainer }

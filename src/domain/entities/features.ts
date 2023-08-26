@@ -1,5 +1,10 @@
+export enum FeatureType {
+    UNIT = 'unit',
+    REAL_STATE = 'realState'
+}
+
 export class Feature {
     id!: string
-    type!: 'unity' | 'realState'
+    type!: FeatureType
     description!: string
 }

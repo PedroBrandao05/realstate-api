@@ -3,6 +3,8 @@ import ValidateTicket from "../../application/decorators/validateTicket";
 import ValidateToken from "../../application/decorators/validateToken";
 import IAddressService, { AddressServiceDTO } from "../../domain/services/address";
 import { AuthServiceDTO, IAuthService } from "../../domain/services/auth";
+import { FeaturesServiceDTO } from "../../domain/services/features";
+import IFeaturesService from "../../domain/services/features";
 import IFinancialDetailsService, { FinancialDetailsDTO } from "../../domain/services/financialDetails";
 import IInfrastructureDetailsService, { InfrastructureDetailsDTO } from "../../domain/services/infrastructureDetails";
 import { IOwnerService, OwnerServiceDTO } from "../../domain/services/owner";
@@ -15,6 +17,7 @@ const PropertyService = iocContainer.get<IPropertyService>('IPropertyService')
 const InfrastructureDetailsService = iocContainer.get<IInfrastructureDetailsService>('IInfrastructureDetailsService')
 const FinancialDetailsService = iocContainer.get<IFinancialDetailsService>('IFinancialDetailsService')
 const AddressService = iocContainer.get<IAddressService>('IAddressService')
+const FeaturesService = iocContainer.get<IFeaturesService>('IFeaturesService')
 
 export default class UsecaseFactory {
 
@@ -140,6 +143,31 @@ export default class UsecaseFactory {
 
     createDeleteAddress (){
         const usecase = async (input: any) => {return await ValidateToken(input, async (input: AddressServiceDTO.DeleteAddressInput) => {return await AddressService.delete(input)})}
+        return usecase
+    }
+
+    createSaveFeature (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: FeaturesServiceDTO.SaveFeatureInput) => {return await FeaturesService.save(input)})}
+        return usecase
+    }
+
+    createGetAllFeatures (){
+        const usecase = async () => {return await FeaturesService.getAll()}
+        return usecase
+    }
+
+    createGetFeature (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: FeaturesServiceDTO.GetFeatureInput) => {return await FeaturesService.getById(input)})}
+        return usecase
+    }
+
+    createUpdateFeature (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: FeaturesServiceDTO.UpdateFeatureInput) => {return await FeaturesService.update(input)})}
+        return usecase
+    }
+
+    createDeleteFeature (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: FeaturesServiceDTO.DeleteFeatureInput) => {return await FeaturesService.delete(input)})}
         return usecase
     }
 }

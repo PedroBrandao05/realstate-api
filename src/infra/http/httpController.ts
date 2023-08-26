@@ -71,11 +71,11 @@ export default class HTTPController {
             return {code: 201, response: output}
         })
 
-        httpServer.on("get", "/get-property", async (params: any, body: any, headers: any) => {
+        httpServer.on("get", "/get-property/:propertyId", async (params: any, body: any, headers: any) => {
             const token = headers.authorization
-            body.token = token
+            params.token = token
             const GetProperty = usecaseFactory.createGetProperty()
-            const output = await GetProperty(body)
+            const output = await GetProperty(params)
             return {code: 200, response: output}
         })
 
@@ -121,11 +121,11 @@ export default class HTTPController {
             return {code: 201, response: output}
         })
 
-        httpServer.on("get", "/get-infrastructure-details", async (params: any, body: any, headers: any) => {
+        httpServer.on("get", "/get-infrastructure-details/:propertyId", async (params: any, body: any, headers: any) => {
             const token = headers.authorization
-            body.token = token
+            params.token = token
             const GetInfrastructureDetails = usecaseFactory.createGetInfrastructureDetails()
-            const output = await GetInfrastructureDetails(body)
+            const output = await GetInfrastructureDetails(params)
             return {code: 200, response: output}
         })
 
@@ -153,11 +153,11 @@ export default class HTTPController {
             return {code: 201, response: output}
         })
 
-        httpServer.on("get", "/get-financial-details", async (params: any, body: any, headers: any) => {
+        httpServer.on("get", "/get-financial-details/:propertyId", async (params: any, body: any, headers: any) => {
             const token = headers.authorization
-            body.token = token
+            params.token = token
             const GetFinancialDetails = usecaseFactory.createGetFinancialDetails()
-            const output = await GetFinancialDetails(body)
+            const output = await GetFinancialDetails(params)
             return {code: 200, response: output}
         })
 
@@ -185,11 +185,11 @@ export default class HTTPController {
             return {code: 201, response: output}
         })
 
-        httpServer.on("get", "/get-address", async (params: any, body: any, headers: any) => {
+        httpServer.on("get", "/get-address/:propertyId", async (params: any, body: any, headers: any) => {
             const token = headers.authorization
-            body.token = token
+            params.token = token
             const GetAddress = usecaseFactory.createGetAddress()
-            const output = await GetAddress(body)
+            const output = await GetAddress(params)
             return {code: 200, response: output}
         })
 
@@ -206,6 +206,44 @@ export default class HTTPController {
             body.token = token
             const DeleteAddress = usecaseFactory.createDeleteAddress()
             const output = await DeleteAddress(body)
+            return {code: 201, response: output}
+        })
+
+        httpServer.on("post", "/save-feature", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const SaveFeature = usecaseFactory.createSaveFeature()
+            const output = await SaveFeature(body)
+            return {code: 201, response: output}
+        })
+
+        httpServer.on("get", "/get-feature/:featureId", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const GetFeature = usecaseFactory.createGetFeature()
+            const output = await GetFeature(body)
+            return {code: 200, response: output}
+        })
+
+        httpServer.on("get", "/get-features", async (params: any, body: any, headers: any) => {
+            const GetAllFeatures = usecaseFactory.createGetAllFeatures()
+            const output = await GetAllFeatures()
+            return {code: 200, response: output}
+        })
+
+        httpServer.on("patch", "/update-feature", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const UpdateFeature = usecaseFactory.createUpdateFeature()
+            const output = await UpdateFeature(body)
+            return {code: 204, response: output}
+        })
+
+        httpServer.on("delete", "/delete-feature", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const DeleteFeature = usecaseFactory.createDeleteFeature()
+            const output = await DeleteFeature(body)
             return {code: 201, response: output}
         })
     } 
