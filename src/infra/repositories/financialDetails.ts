@@ -2,7 +2,7 @@ import 'reflect-metadata'
 import {inject, injectable} from 'inversify'
 import IFinancialDetailsRepository from '../../domain/repositories/financialDetails'
 import IDatabaseConnection from '../../application/contracts/databaseConnection'
-import { FinancialDetails } from '../../domain/entities/financialDetails'
+import { FinancialDetails, PurchaseMethods } from '../../domain/entities/financialDetails'
 
 @injectable()
 export default class FinancialDetailsRepository implements IFinancialDetailsRepository {
@@ -39,6 +39,42 @@ export default class FinancialDetailsRepository implements IFinancialDetailsRepo
         const [financialDetails] = await this.database.query('select * from financial_details where property_id = $1', [propertyId])
         if (!financialDetails) return
         return this.toModel(financialDetails)
+    }
+
+    async findOnesOnSale(): Promise<FinancialDetails[]> {
+        const financialDetails = await this.database.query('select * from financial_details where sale = $1', [true])
+        if (!financialDetails.length) return []
+        return financialDetails.map(financialDetail => this.toModel(financialDetail))
+    }
+
+    async findOnesOnRent(): Promise<FinancialDetails[]> {
+        const financialDetails = await this.database.query('select * from financial_details where rent = $1', [true])
+        if (!financialDetails.length) return []
+        return financialDetails.map(financialDetail => this.toModel(financialDetail))
+    }
+
+    async findByRentCost(max: number, min: number): Promise<FinancialDetails[]> {
+        const financialDetails = await this.database.query('select * from financial_details where rent_cost >= $1 and rent_cost <= $2', [min, max])
+        if (!financialDetails.length) return []
+        return financialDetails.map(financialDetail => this.toModel(financialDetail))
+    }
+
+    async findBySaleCost(max: number, min: number): Promise<FinancialDetails[]> {
+        const financialDetails = await this.database.query('select * from financial_details where sale_cost >= $1 and sale_cost <= $2', [min, max])
+        if (!financialDetails.length) return []
+        return financialDetails.map(financialDetail => this.toModel(financialDetail))
+    }
+
+    async findExchangeableOnes(): Promise<FinancialDetails[]> {
+        const financialDetails = await this.database.query('select * from financial_details where accepts_exchange = $1', [true])
+        if (!financialDetails.length) return []
+        return financialDetails.map(financialDetail => this.toModel(financialDetail))
+    }
+
+    async findFinanciableOnes(): Promise<FinancialDetails[]> {
+        const financialDetails = await this.database.query('select * from financial_details where purchase_method = $1', [PurchaseMethods.FINANCING])
+        if (!financialDetails.length) return []
+        return financialDetails.map(financialDetail => this.toModel(financialDetail))
     }
 
     async update(financialDetails: FinancialDetails): Promise<void> {

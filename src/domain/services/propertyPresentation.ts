@@ -1,4 +1,5 @@
 import { Address } from "../entities/address"
+import { Feature } from "../entities/features"
 import { FinancialDetails } from "../entities/financialDetails"
 import { InfrastructureDetails } from "../entities/infrastructureDetails"
 import { Media, Property } from "../entities/property"
@@ -42,6 +43,6 @@ export namespace PropertyPresentationServiceDTO {
         financialDetails: FinancialDetails,
         address: Address,
         realtor: User,
-        features: PropertyFeatures
+        features: Feature[]
     }
 }

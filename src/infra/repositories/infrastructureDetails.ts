@@ -29,6 +29,36 @@ export default class InfrastructureDetailsRepository implements IInfrastructureD
         return this.toModel(infrastructureDetails)
     }
 
+    async findByBathroomsNumber(bathrooms: number): Promise<InfrastructureDetails[]> {
+        const infrastructureDetails = await this.database.query('select * from infrastructure_details where bathrooms = $1', [bathrooms])
+        if (!infrastructureDetails.length) return []
+        return infrastructureDetails.map(infrastructureDetail => this.toModel(infrastructureDetail))
+    }
+
+    async findBySleepingRoomsNumber(sleepingRooms: number): Promise<InfrastructureDetails[]> {
+        const infrastructureDetails = await this.database.query('select * from infrastructure_details where sleeping_rooms = $1', [sleepingRooms])
+        if (!infrastructureDetails.length) return []
+        return infrastructureDetails.map(infrastructureDetail => this.toModel(infrastructureDetail))
+    }
+
+    async findByGarageSpotsNumber(garageSpots: number): Promise<InfrastructureDetails[]> {
+        const infrastructureDetails = await this.database.query('select * from infrastructure_details where garage_spots = $1', [garageSpots])
+        if (!infrastructureDetails.length) return []
+        return infrastructureDetails.map(infrastructureDetail => this.toModel(infrastructureDetail))
+    }
+
+    async findByArea(area: number): Promise<InfrastructureDetails[]> {
+        const infrastructureDetails = await this.database.query('select * from infrastructure_details where area = $1', [area])
+        if (!infrastructureDetails.length) return []
+        return infrastructureDetails.map(infrastructureDetail => this.toModel(infrastructureDetail))
+    }
+
+    async findByPropertyType(propertyType: string): Promise<InfrastructureDetails[]> {
+        const infrastructureDetails = await this.database.query('select * from infrastructure_details where property_type = $1', [propertyType])
+        if (!infrastructureDetails.length) return []
+        return infrastructureDetails.map(infrastructureDetail => this.toModel(infrastructureDetail))
+    }
+
     async create(infrastructureDetails: InfrastructureDetails): Promise<void> {
         await this.database.query(`insert into infrastructure_details (id, property_id, property_type, property_subtype, sleeping_rooms, garage_spots, bathrooms, area) values 
         ($1, $2, $3, $4, $5, $6, $7, $8)`, [infrastructureDetails.id, infrastructureDetails.propertyId, infrastructureDetails.propertyType, infrastructureDetails.propertySubtype, infrastructureDetails.sleepingRooms, infrastructureDetails.garageSpots, infrastructureDetails.bathrooms, infrastructureDetails.area])

@@ -40,12 +40,12 @@ export default class AddressService implements IAddressService {
         const address = await this.addressRepository.findAddressByPropertyId(propertyExists.id)
         if (!address) throw new ApplicationError("This property address wasn't registered", 400)
         address.cep = input.cep
-        address.city = input.city
+        address.city = input.city.toLowerCase()
         address.complement = input.complement
-        address.state = input.state
+        address.state = input.state.toLowerCase()
         address.street = input.street
         address.number = input.number
-        address.district = input.district
+        address.district = input.district.toLowerCase()
 
         await this.addressRepository.update(address)
     }
