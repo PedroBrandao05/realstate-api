@@ -48,6 +48,8 @@ import IAddressService from "../domain/services/address";
 import AddressService from "../application/services/address";
 import IFeaturesService from "../domain/services/features";
 import FeaturesService from "../application/services/features";
+import IPropertyFeaturesService from "../domain/services/propertyFeatures";
+import PropertyFeaturesService from "../application/services/propertyFeatures";
 
 const iocContainer = new Container()
 iocContainer.bind<IUuidGenerator>('IUuidGenerator').to(IdGenerator)
@@ -74,5 +76,6 @@ iocContainer.bind<IFinancialDetailsService>('IFinancialDetailsService').to(Finan
 iocContainer.bind<IAddressRepository>('IAddressRepository').to(AddressRepository)
 iocContainer.bind<IAddressService>('IAddressService').to(AddressService)
 iocContainer.bind<IFeaturesService>('IFeaturesService').to(FeaturesService)
+iocContainer.bind<IPropertyFeaturesService>('IPropertyFeaturesService').to(PropertyFeaturesService)
 
 export { iocContainer }

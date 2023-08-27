@@ -226,8 +226,9 @@ export default class HTTPController {
         })
 
         httpServer.on("get", "/get-features", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
             const GetAllFeatures = usecaseFactory.createGetAllFeatures()
-            const output = await GetAllFeatures()
+            const output = await GetAllFeatures({token})
             return {code: 200, response: output}
         })
 
@@ -244,7 +245,29 @@ export default class HTTPController {
             body.token = token
             const DeleteFeature = usecaseFactory.createDeleteFeature()
             const output = await DeleteFeature(body)
+            return {code: 200, response: output}
+        })
+
+        httpServer.on("post", "/save-property-feature", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const SavePropertyFeature = usecaseFactory.createSavePropertyFeature()
+            const output = await SavePropertyFeature(body)
             return {code: 201, response: output}
+        })
+
+        httpServer.on("get", "/get-property-features/:propertyId", async (params: any, body: any, headers: any) => {
+            const GetAllPropertyFeatures = usecaseFactory.createGetAllPropertyFeatures()
+            const output = await GetAllPropertyFeatures(params)
+            return {code: 200, response: output}
+        })
+
+        httpServer.on("delete", "/remove-property-feature", async (params: any, body: any, headers: any) => {
+            const token = headers.authorization
+            body.token = token
+            const RemovePropertyFeature = usecaseFactory.createRemovePropertyFeature()
+            const output = await RemovePropertyFeature(body)
+            return {code: 200, response: output}
         })
     } 
 }

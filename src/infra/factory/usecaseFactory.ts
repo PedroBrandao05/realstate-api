@@ -9,6 +9,7 @@ import IFinancialDetailsService, { FinancialDetailsDTO } from "../../domain/serv
 import IInfrastructureDetailsService, { InfrastructureDetailsDTO } from "../../domain/services/infrastructureDetails";
 import { IOwnerService, OwnerServiceDTO } from "../../domain/services/owner";
 import IPropertyService, { PropertyServiceDTO } from "../../domain/services/property";
+import IPropertyFeaturesService, { PropertyFeaturesServiceDTO } from "../../domain/services/propertyFeatures";
 import { iocContainer } from "../../presentation/ioc";
 
 const AuthService = iocContainer.get<IAuthService>('IAuthService')
@@ -18,6 +19,7 @@ const InfrastructureDetailsService = iocContainer.get<IInfrastructureDetailsServ
 const FinancialDetailsService = iocContainer.get<IFinancialDetailsService>('IFinancialDetailsService')
 const AddressService = iocContainer.get<IAddressService>('IAddressService')
 const FeaturesService = iocContainer.get<IFeaturesService>('IFeaturesService')
+const PropertyFeaturesService = iocContainer.get<IPropertyFeaturesService>('IPropertyFeaturesService')
 
 export default class UsecaseFactory {
 
@@ -152,7 +154,7 @@ export default class UsecaseFactory {
     }
 
     createGetAllFeatures (){
-        const usecase = async () => {return await FeaturesService.getAll()}
+        const usecase = async (input: any) => {return await ValidateToken(input, async () => {return await FeaturesService.getAll()})}
         return usecase
     }
 
@@ -168,6 +170,21 @@ export default class UsecaseFactory {
 
     createDeleteFeature (){
         const usecase = async (input: any) => {return await ValidateToken(input, async (input: FeaturesServiceDTO.DeleteFeatureInput) => {return await FeaturesService.delete(input)})}
+        return usecase
+    }
+
+    createSavePropertyFeature (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: PropertyFeaturesServiceDTO.SavePropertyFeatureInput) => {return await PropertyFeaturesService.save(input)})}
+        return usecase
+    }
+
+    createGetAllPropertyFeatures (){
+        const usecase = async (input: PropertyFeaturesServiceDTO.GetAllPropertyFeaturesInput) => {return await PropertyFeaturesService.getAll(input)}
+        return usecase
+    }
+
+    createRemovePropertyFeature (){
+        const usecase = async (input: any) => {return await ValidateToken(input, async (input: PropertyFeaturesServiceDTO.RemovePropertyFeatureInput) => {return await PropertyFeaturesService.remove(input)})}
         return usecase
     }
 }
