@@ -9,10 +9,10 @@ const financialDetailsRepository = iocContainer.get<IFinancialDetailsRepository>
 export default class filterOnesOnSale implements IFilterDecorator {
     constructor (
         private readonly nextFilter?: IFilterDecorator,
-        private readonly nextValues?: {max: number, min: number}
+        private readonly nextValues?: any
     ){}
 
-    async leach(values?:  {max: number, min: number}, previous?: string[]): Promise<string[]> {
+    async leach(values?: any, previous?: string[]): Promise<string[]> {
         const filteredFinancialDetails = await financialDetailsRepository.findOnesOnSale()
         const propertiesFound = filteredFinancialDetails.map((financialDetail) => financialDetail.propertyId)
         if (!filteredFinancialDetails.length) throw new ApplicationError("There are no properties on sale", 400)

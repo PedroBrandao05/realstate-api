@@ -9,7 +9,7 @@ const financialDetailsRepository = iocContainer.get<IFinancialDetailsRepository>
 export default class filterBySaleCost implements IFilterDecorator {
     constructor (
         private readonly nextFilter?: IFilterDecorator,
-        private readonly nextValues?: {max: number, min: number}
+        private readonly nextValues?: any
     ){}
 
     async leach(values:  {max: number, min: number}, previous?: string[]): Promise<string[]> {

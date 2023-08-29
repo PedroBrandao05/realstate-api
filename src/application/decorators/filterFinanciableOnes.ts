@@ -6,16 +6,16 @@ import findPropertiesThatMatch from "../utils/findPropertiesThatMatch";
 
 const financialDetailsRepository = iocContainer.get<IFinancialDetailsRepository>('IFinancialDetailsRepository')
 
-export default class filterBySaleCost implements IFilterDecorator {
+export default class filterFinanciableOnes implements IFilterDecorator {
     constructor (
         private readonly nextFilter?: IFilterDecorator,
-        private readonly nextValues?: any
+        private readonly nextValues?:any
     ){}
 
-    async leach(values:  {max: number, min: number}, previous?: string[]): Promise<string[]> {
-        const filteredFinancialDetails = await financialDetailsRepository.findByRentCost(values.max, values.min)
+    async leach(values?: any, previous?: string[]): Promise<string[]> {
+        const filteredFinancialDetails = await financialDetailsRepository.findFinanciableOnes()
         const propertiesFound = filteredFinancialDetails.map((financialDetail) => financialDetail.propertyId)
-        if (!filteredFinancialDetails.length) throw new ApplicationError("There are no properties available for this cost range", 400)
+        if (!filteredFinancialDetails.length) throw new ApplicationError("There are no properties accepting financing", 400)
         if (!previous) {
             if (!this.nextFilter) return propertiesFound
             return await this.nextFilter.leach(this.nextValues, propertiesFound)

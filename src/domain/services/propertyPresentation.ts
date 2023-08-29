@@ -11,7 +11,7 @@ export enum FilterOptions {
     SALE_COST = 'saleCost',
     RENT_COST = 'rentCost',
     ACCEPTS_EXCHANGE = 'acceptsExchange',
-    PURCHASE_METHOD = 'purchaseMethods',
+    ACCEPTS_FINANCING = 'acceptsFinancing',
     BATHROOMS = 'bathrooms',
     SLEEPING_ROOMS = 'sleepingRooms',
     GARAGE_SPOTS = 'garageSpots',
@@ -20,7 +20,7 @@ export enum FilterOptions {
     PROPERTY_TYPE = 'propertyType'
 }
 
-export type Filter = {option: FilterOptions, value?: {max: number, min: number}}
+export type Filter = {option: FilterOptions, value?: any}
 
 export namespace PropertyPresentationServiceDTO {
     export type GetFilteredPropertiesInput = Filter[]

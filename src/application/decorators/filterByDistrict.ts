@@ -1,21 +1,21 @@
 import { ApplicationError } from "../../domain/error/application";
-import IFinancialDetailsRepository from "../../domain/repositories/financialDetails";
+import IAddressRepository from "../../domain/repositories/address";
 import { iocContainer } from "../../presentation/ioc";
 import IFilterDecorator from "../contracts/filterDecorator";
 import findPropertiesThatMatch from "../utils/findPropertiesThatMatch";
 
-const financialDetailsRepository = iocContainer.get<IFinancialDetailsRepository>('IFinancialDetailsRepository')
+const AddressRepository = iocContainer.get<IAddressRepository>('IAddressRepository')
 
-export default class filterBySaleCost implements IFilterDecorator {
+export default class filterByDistrict implements IFilterDecorator {
     constructor (
         private readonly nextFilter?: IFilterDecorator,
         private readonly nextValues?: any
     ){}
 
-    async leach(values:  {max: number, min: number}, previous?: string[]): Promise<string[]> {
-        const filteredFinancialDetails = await financialDetailsRepository.findByRentCost(values.max, values.min)
-        const propertiesFound = filteredFinancialDetails.map((financialDetail) => financialDetail.propertyId)
-        if (!filteredFinancialDetails.length) throw new ApplicationError("There are no properties available for this cost range", 400)
+    async leach(value: string, previous?: string[]): Promise<string[]> {
+        const filteredAddresses = await AddressRepository.findByDistrict(value)
+        const propertiesFound = filteredAddresses.map((address) => address.propertyId)
+        if (!filteredAddresses.length) throw new ApplicationError(`There are no properties in ${value}`, 400)
         if (!previous) {
             if (!this.nextFilter) return propertiesFound
             return await this.nextFilter.leach(this.nextValues, propertiesFound)
