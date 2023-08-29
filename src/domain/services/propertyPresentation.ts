@@ -2,8 +2,7 @@ import { Address } from "../entities/address"
 import { Feature } from "../entities/features"
 import { FinancialDetails } from "../entities/financialDetails"
 import { InfrastructureDetails } from "../entities/infrastructureDetails"
-import { Media, Property } from "../entities/property"
-import { PropertyFeatures } from "../entities/propertyFeatures"
+import { Property } from "../entities/property"
 import { User } from "../entities/user"
 
 export enum FilterOptions {
@@ -21,7 +20,7 @@ export enum FilterOptions {
     PROPERTY_TYPE = 'propertyType'
 }
 
-export type Filter = {option: FilterOptions, value: {max: number, min: number} | boolean}
+export type Filter = {option: FilterOptions, value?: {max: number, min: number}}
 
 export namespace PropertyPresentationServiceDTO {
     export type GetFilteredPropertiesInput = Filter[]

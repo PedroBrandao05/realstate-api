@@ -48,7 +48,7 @@ export default class InfrastructureDetailsRepository implements IInfrastructureD
     }
 
     async findByArea(area: number): Promise<InfrastructureDetails[]> {
-        const infrastructureDetails = await this.database.query('select * from infrastructure_details where area = $1', [area])
+        const infrastructureDetails = await this.database.query('select * from infrastructure_details where area >= $1', [area])
         if (!infrastructureDetails.length) return []
         return infrastructureDetails.map(infrastructureDetail => this.toModel(infrastructureDetail))
     }
