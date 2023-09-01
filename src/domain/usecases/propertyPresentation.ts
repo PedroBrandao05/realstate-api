@@ -5,6 +5,11 @@ import { InfrastructureDetails } from "../entities/infrastructureDetails"
 import { Property } from "../entities/property"
 import { User } from "../entities/user"
 
+export default interface IPropertyPresentationUsecase {
+    getFilteredProperties (input: PropertyPresentationUsecaseDTO.GetFilteredPropertiesInput): Promise<PropertyPresentationUsecaseDTO.GetFilteredPropertiesOutput>
+    getDetailedProperty (input: PropertyPresentationUsecaseDTO.GetDetailedPropertyInput): Promise<PropertyPresentationUsecaseDTO.GetDetailedPropertyOutput>
+}
+
 export enum FilterOptions {
     SALE = 'sale',
     RENT = 'rent', 
@@ -22,8 +27,9 @@ export enum FilterOptions {
 
 export type Filter = {option: FilterOptions, value?: any}
 
-export namespace PropertyPresentationServiceDTO {
-    export type GetFilteredPropertiesInput = Filter[]
+export namespace PropertyPresentationUsecaseDTO {
+    export type GetFilteredPropertiesInput = string[]
+
     export type GetFilteredPropertiesOutput = {
         propertyId: string
         thumb: string,
@@ -38,10 +44,10 @@ export namespace PropertyPresentationServiceDTO {
 
     export type GetDetailedPropertyOutput = {
         property: Property,
-        infrastructureDetails: InfrastructureDetails,
-        financialDetails: FinancialDetails,
-        address: Address,
-        realtor: User,
-        features: Feature[]
+        infrastructureDetails: Omit<InfrastructureDetails, 'id'>,
+        financialDetails: Omit<FinancialDetails, 'id'>,
+        address: Omit<Address, 'id'>,
+        realtor: Omit<User, 'id' | 'email' | 'password'>,
+        features: Omit<Feature, 'id'>[]
     }
 }

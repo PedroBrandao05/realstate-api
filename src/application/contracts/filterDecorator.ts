@@ -1,3 +1,3 @@
 export default interface IFilterDecorator {
-    leach (value?: any, previous?: string[], ): Promise<string[]>
+    leach (values: any, previous?: string[]): Promise<string[]>
 }

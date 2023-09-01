@@ -10,7 +10,23 @@ import IInfrastructureDetailsService, { InfrastructureDetailsDTO } from "../../d
 import { IOwnerService, OwnerServiceDTO } from "../../domain/services/owner";
 import IPropertyService, { PropertyServiceDTO } from "../../domain/services/property";
 import IPropertyFeaturesService, { PropertyFeaturesServiceDTO } from "../../domain/services/propertyFeatures";
+import IPropertyPresentationUsecase, { FilterOptions, PropertyPresentationUsecaseDTO } from "../../domain/usecases/propertyPresentation";
 import { iocContainer } from "../../presentation/ioc";
+import IFilterDecorator from "../../application/contracts/filterDecorator";
+import { Filter } from '../../domain/usecases/propertyPresentation'
+import filterOnesOnSale from "../../application/decorators/filter/filterOnesOnSale";
+import filterOnesOnRent from "../../application/decorators/filter/filterOnesOnRent";
+import filterBySaleCost from "../../application/decorators/filter/filterBySaleCost";
+import filterByRentCost from "../../application/decorators/filter/filterByRentCost";
+import filterExchangeableOnes from "../../application/decorators/filter/filterExchangeableOnes";
+import filterFinanciableOnes from "../../application/decorators/filter/filterFinanciableOnes";
+import filterByBathrooms from "../../application/decorators/filter/filterByBathrooms";
+import filterBySleepingRooms from "../../application/decorators/filter/filterBySleepingRooms";
+import filterByArea from "../../application/decorators/filter/filterByArea";
+import filterByGarageSpots from "../../application/decorators/filter/filterByGarageSpots";
+import filterByDistrict from "../../application/decorators/filter/filterByDistrict";
+import filterByPropertyType from "../../application/decorators/filter/filterByPropertyType";
+import appendDecorator from "../../application/decorators/filter";
 
 const AuthService = iocContainer.get<IAuthService>('IAuthService')
 const OwnerService = iocContainer.get<IOwnerService>('IOwnerService')
@@ -20,6 +36,7 @@ const FinancialDetailsService = iocContainer.get<IFinancialDetailsService>('IFin
 const AddressService = iocContainer.get<IAddressService>('IAddressService')
 const FeaturesService = iocContainer.get<IFeaturesService>('IFeaturesService')
 const PropertyFeaturesService = iocContainer.get<IPropertyFeaturesService>('IPropertyFeaturesService')
+const PropertyPresentationUsecase = iocContainer.get<IPropertyPresentationUsecase>('IPropertyPresentationUsecase')
 
 export default class UsecaseFactory {
 
@@ -185,6 +202,11 @@ export default class UsecaseFactory {
 
     createRemovePropertyFeature (){
         const usecase = async (input: any) => {return await ValidateToken(input, async (input: PropertyFeaturesServiceDTO.RemovePropertyFeatureInput) => {return await PropertyFeaturesService.remove(input)})}
+        return usecase
+    }
+
+    createGetDetailedProperty (){
+        const usecase = async (input: PropertyPresentationUsecaseDTO.GetDetailedPropertyInput) => {return PropertyPresentationUsecase.getDetailedProperty(input)}
         return usecase
     }
 }
