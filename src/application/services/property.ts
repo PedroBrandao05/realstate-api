@@ -65,7 +65,6 @@ export default class PropertyService implements IPropertyService {
         if (!property) throw new ApplicationError("This property doesn't exist", 400)
         return {
             ...property,
-            publishDate: convertDateToString(property.publishDate)
         }
     }
 

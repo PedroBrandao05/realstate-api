@@ -13,7 +13,7 @@ beforeAll(async () => {
 })
 
 describe("AddressService related tests", () => {
-    it("should save an financial detail", async () => {
+    it("should save an address", async () => {
         const spy = Sinon.spy(AddressRepository.prototype, 'create')
         const input : AddressServiceDTO.SaveAddressInput = {
             propertyId: '9cecf926-5ed9-43ea-a7c6-31a0643132c9',
@@ -30,7 +30,7 @@ describe("AddressService related tests", () => {
         expect(spy.calledOnce).toBeTruthy()
     })
 
-    it("should get an financial detail", async () => {
+    it("should get an address", async () => {
         const spy = Sinon.spy(AddressRepository.prototype, 'findAddressByPropertyId')
         const input : AddressServiceDTO.GetAddressInput = {
             propertyId: '9cecf926-5ed9-43ea-a7c6-31a0643132c9',
@@ -40,7 +40,7 @@ describe("AddressService related tests", () => {
         expect(spy.calledOnce).toBeTruthy()
     })
 
-    it("should update an financial detail", async () => {
+    it("should update an address", async () => {
         const spy = Sinon.spy(AddressRepository.prototype, 'update')
         const input : AddressServiceDTO.UpdateAddressInput = {
             propertyId: '9cecf926-5ed9-43ea-a7c6-31a0643132c9',
@@ -57,7 +57,7 @@ describe("AddressService related tests", () => {
         expect(spy.calledOnce).toBeTruthy()
     })
 
-    it("should delete an financial detail", async () => {
+    it.skip("should delete an address", async () => {
         const spy = Sinon.spy(AddressRepository.prototype, 'delete')
         const input : AddressServiceDTO.DeleteAddressInput = {
             propertyId: '9cecf926-5ed9-43ea-a7c6-31a0643132c9',

@@ -54,7 +54,7 @@ export namespace PropertyServiceDTO {
         media: Media[],
         userId: string,
         ownerId: string,
-        publishDate: string
+        publishDate: Date
     }
 
     export type DeletePropertyInput = {

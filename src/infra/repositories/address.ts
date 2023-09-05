@@ -31,6 +31,12 @@ export default class AddressRepository implements IAddressRepository {
         return this.toModel(address)
     }
 
+    async findByDistrict(district: string): Promise<Address[]> {
+        const addresses = await this.database.query('select * from address where district = $1', [district])
+        if (!addresses.length) return []
+        return addresses.map(address => this.toModel(address))
+    }
+
     async create(address: Address): Promise<void> {
         await this.database.query('insert into address (id, property_id, cep, city, complement, state, street, number, district) values ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
         [address.id, address.propertyId, address.cep, address.city, address.complement, address.state, address.street, address.number, address.district])

@@ -25,9 +25,15 @@ export default class UserRepository implements IUserRepository {
         await this.database.query('insert into users (id, name, email, password, phone, creci ) values ($1, $2, $3, $4, $5, $6)', [user.id, user.name, user.email, user.password, user.phone, user.creci])
     }
 
-    async findByEmail(email: string): Promise<User | null> {
+    async findByEmail(email: string): Promise<User | undefined> {
         const [user] = await this.database.query('select * from users where email = $1', [email])
-        if (!user) return null
+        if (!user) return 
+        return this.toModel(user)
+    }
+
+    async findById(id: string): Promise<User | undefined> {
+        const [user] = await this.database.query('select * from users where id = $1', [id])
+        if (!user) return
         return this.toModel(user)
     }
 }

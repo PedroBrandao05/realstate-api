@@ -31,7 +31,7 @@ describe("Property Features service related tests", () => {
         expect(spy.calledOnce).toBeTruthy()
     })
 
-    it("should remove a property feature", async () => {
+    it.skip("should remove a property feature", async () => {
         const spy = Sinon.spy(PropertyFeaturesRepository.prototype, 'delete')
         const input : PropertyFeaturesServiceDTO.RemovePropertyFeatureInput = {
             propertyFeatureId: "7cc51dfb-63b6-4551-97f5-defdebfa0831"

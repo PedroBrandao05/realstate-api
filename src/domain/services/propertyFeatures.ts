@@ -1,3 +1,5 @@
+import { FeatureType } from "../entities/features"
+
 export default interface IPropertyFeaturesService {
     save (input: PropertyFeaturesServiceDTO.SavePropertyFeatureInput): Promise<void>
     getAll (input: PropertyFeaturesServiceDTO.GetAllPropertyFeaturesInput): Promise<PropertyFeaturesServiceDTO.GetAllPropertyFeaturesOutput>
@@ -16,7 +18,7 @@ export namespace PropertyFeaturesServiceDTO {
 
     export type GetAllPropertyFeaturesOutput = {
         propertyFeatureId: string,
-        type: string,
+        type: FeatureType,
         description: string
     }[]
 
