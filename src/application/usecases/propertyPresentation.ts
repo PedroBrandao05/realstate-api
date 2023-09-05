@@ -8,6 +8,7 @@ import IAddressService from '../../domain/services/address'
 import IPropertyFeaturesService from '../../domain/services/propertyFeatures'
 import IUserRepository from '../../domain/repositories/user'
 import { ApplicationError } from '../../domain/error/application'
+import IPropertyRepository from '../../domain/repositories/property'
 
 @injectable() 
 export default class PropertyPresentationUsecase implements IPropertyPresentationUsecase {
@@ -17,17 +18,35 @@ export default class PropertyPresentationUsecase implements IPropertyPresentatio
         @inject('IInfrastructureDetailsService') private readonly infrastructureDetailsService : IInfrastructureDetailsService,
         @inject('IAddressService') private readonly addressService : IAddressService,
         @inject('IPropertyFeaturesService') private readonly propertyFeaturesService : IPropertyFeaturesService,
-        @inject('IUserRepository') private readonly userRepository: IUserRepository
+        @inject('IUserRepository') private readonly userRepository: IUserRepository,
+        @inject('IPropertyRepository') private readonly propertyRepository: IPropertyRepository
     ){}
 
-    async getFilteredProperties(input: PropertyPresentationUsecaseDTO.GetFilteredPropertiesInput): Promise<PropertyPresentationUsecaseDTO.GetFilteredPropertiesOutput> {
-        const output : PropertyPresentationUsecaseDTO.GetFilteredPropertiesOutput = []
+    async getFilteredPresentationProperties(input: PropertyPresentationUsecaseDTO.GetFilteredPresentationPropertiesInput): Promise<PropertyPresentationUsecaseDTO.GetPresentationPropertiesOutput> {
+        const output : PropertyPresentationUsecaseDTO.GetPresentationPropertiesOutput = []
         for (const propertyId of input) {
             const property = await this.propertyService.get({propertyId})
             const propertyAddress = await this.addressService.get({propertyId})
             const propertyFinancialDetails = await this.financialDetailsService.get({propertyId})
             output.push({
                 propertyId,
+                thumb: property.media[0].url,
+                rentCost: propertyFinancialDetails.rentCost,
+                saleCost: propertyFinancialDetails.saleCost,
+                district: propertyAddress.district
+            })
+        }
+        return output
+    }
+
+    async getAllPresentationProperties(): Promise<PropertyPresentationUsecaseDTO.GetPresentationPropertiesOutput> {
+        const output : PropertyPresentationUsecaseDTO.GetPresentationPropertiesOutput = []
+        const properties = await this.propertyRepository.findAll()
+        for (const property of properties) {
+            const propertyAddress = await this.addressService.get({propertyId: property.id})
+            const propertyFinancialDetails = await this.financialDetailsService.get({propertyId: property.id})
+            output.push({
+                propertyId: property.id,
                 thumb: property.media[0].url,
                 rentCost: propertyFinancialDetails.rentCost,
                 saleCost: propertyFinancialDetails.saleCost,
@@ -51,7 +70,7 @@ export default class PropertyPresentationUsecase implements IPropertyPresentatio
             financialDetails,
             address,
             features,
-            realtor: user
+            realtor: {name: user.name, phone: user.phone, creci: user.creci}
         }
     }
 }

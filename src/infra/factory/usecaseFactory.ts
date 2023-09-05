@@ -206,7 +206,30 @@ export default class UsecaseFactory {
     }
 
     createGetDetailedProperty (){
-        const usecase = async (input: PropertyPresentationUsecaseDTO.GetDetailedPropertyInput) => {return PropertyPresentationUsecase.getDetailedProperty(input)}
+        const usecase = async (input: PropertyPresentationUsecaseDTO.GetDetailedPropertyInput) => {return await PropertyPresentationUsecase.getDetailedProperty(input)}
+        return usecase
+    }
+
+    createGetPresentationProperties (){
+        const usecase = async () => {return await PropertyPresentationUsecase.getAllPresentationProperties()}
+        return usecase
+    }
+
+    createGetFilteredPresentationProperties (){
+        const usecase = async (input: Filter[]) => {
+            let decorator : IFilterDecorator
+            for (let i = 0; i < input.length; i++){
+                const NextDecorator = appendDecorator(input[i])
+                if (i === 0) {
+                    decorator = new NextDecorator()
+                } else {
+                    const lastValue = input[i-1]
+                    decorator = new NextDecorator(decorator!, lastValue)
+                }
+            }
+            const properties = await decorator!.leach(input[0].value)
+            return await PropertyPresentationUsecase.getFilteredPresentationProperties(properties)
+        }
         return usecase
     }
 }

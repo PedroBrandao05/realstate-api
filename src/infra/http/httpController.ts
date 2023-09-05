@@ -269,5 +269,23 @@ export default class HTTPController {
             const output = await RemovePropertyFeature(body)
             return {code: 200, response: output}
         })
+
+        httpServer.on("get", "/detailed-property/:propertyId", async (params: any, body: any, headers: any) => {
+            const GetDetailedProperty = usecaseFactory.createGetDetailedProperty()
+            const output = await GetDetailedProperty(params)
+            return {code: 200, response: output}
+        })
+
+        httpServer.on("get", "/presentation-properties", async (params: any, body: any, headers: any) => {
+            const GetPresentationProperties = usecaseFactory.createGetPresentationProperties()
+            const output = await GetPresentationProperties()
+            return {code: 200, response: output}
+        })
+        
+        httpServer.on("post", "/filtered-presentation-properties", async (params: any, body: any, headers: any) => {
+            const GetFilteredPresentationProperties = usecaseFactory.createGetFilteredPresentationProperties()
+            const output = await GetFilteredPresentationProperties(body.filters)
+            return {code: 200, response: output}
+        })
     } 
 }

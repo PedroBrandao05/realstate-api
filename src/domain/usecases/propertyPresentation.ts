@@ -6,7 +6,8 @@ import { Property } from "../entities/property"
 import { User } from "../entities/user"
 
 export default interface IPropertyPresentationUsecase {
-    getFilteredProperties (input: PropertyPresentationUsecaseDTO.GetFilteredPropertiesInput): Promise<PropertyPresentationUsecaseDTO.GetFilteredPropertiesOutput>
+    getAllPresentationProperties (): Promise<PropertyPresentationUsecaseDTO.GetPresentationPropertiesOutput>
+    getFilteredPresentationProperties (input: PropertyPresentationUsecaseDTO.GetFilteredPresentationPropertiesInput): Promise<PropertyPresentationUsecaseDTO.GetPresentationPropertiesOutput>
     getDetailedProperty (input: PropertyPresentationUsecaseDTO.GetDetailedPropertyInput): Promise<PropertyPresentationUsecaseDTO.GetDetailedPropertyOutput>
 }
 
@@ -28,9 +29,9 @@ export enum FilterOptions {
 export type Filter = {option: FilterOptions, value?: any}
 
 export namespace PropertyPresentationUsecaseDTO {
-    export type GetFilteredPropertiesInput = string[]
+    export type GetFilteredPresentationPropertiesInput = string[]
 
-    export type GetFilteredPropertiesOutput = {
+    export type GetPresentationPropertiesOutput = {
         propertyId: string
         thumb: string,
         district: string,

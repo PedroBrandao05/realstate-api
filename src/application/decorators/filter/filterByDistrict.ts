@@ -13,7 +13,8 @@ export default class filterByDistrict implements IFilterDecorator {
     ){}
 
     async leach(value: string, previous?: string[]): Promise<string[]> {
-        const filteredAddresses = await AddressRepository.findByDistrict(value)
+        const district = value.toLowerCase()
+        const filteredAddresses = await AddressRepository.findByDistrict(district)
         const propertiesFound = filteredAddresses.map((address) => address.propertyId)
         if (!filteredAddresses.length) throw new ApplicationError(`There are no properties in ${value}`, 400)
         if (!previous) {

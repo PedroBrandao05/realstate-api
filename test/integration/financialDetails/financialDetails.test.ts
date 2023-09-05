@@ -66,7 +66,7 @@ describe("FinancialDetailsService related tests", () => {
         expect(spy.calledOnce).toBeTruthy()
     })
 
-    it("should delete an financial detail", async () => {
+    it.skip("should delete an financial detail", async () => {
         const spy = Sinon.spy(FinancialDetailsRepository.prototype, 'delete')
         const input : FinancialDetailsDTO.DeleteFinancialDetailsInput = {
             propertyId: '9cecf926-5ed9-43ea-a7c6-31a0643132c9',

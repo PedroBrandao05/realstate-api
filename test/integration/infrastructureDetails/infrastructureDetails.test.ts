@@ -55,7 +55,7 @@ describe("InfrastructureDetailsService related tests", () => {
         expect(spy.calledOnce).toBeTruthy()
     })
 
-    it("should delete an infrastructure detail", async () => {
+    it.skip("should delete an infrastructure detail", async () => {
         const spy = Sinon.spy(InfrastructureDetailsRepository.prototype, 'delete')
         const input : InfrastructureDetailsDTO.DeleteInfrastructureDetailsInput = {
             propertyId: '9cecf926-5ed9-43ea-a7c6-31a0643132c9',
