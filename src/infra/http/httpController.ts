@@ -3,7 +3,7 @@ import IHTTPServer from "../../application/contracts/httpServer";
 import 'reflect-metadata'
 import UsecaseFactory from "../factory/usecaseFactory";
 import IMediaHandler from "../../application/contracts/mediaHandler";
-import findFilesInDirectory from "../../application/utils/findFilesInDirectory";
+import DirectoryHandler from "../directory/directoryHandler";
 
 const usecaseFactory = new UsecaseFactory()
 
@@ -97,7 +97,7 @@ export default class HTTPController {
 
         httpServer.middleware("patch", "/upload-property-media/:id", this.mediaHandler.save('array', 'images'), async (params: any, body: any, headers: any) => {
             const token = headers.authorization
-            const files = await findFilesInDirectory('temp')
+            const files = await DirectoryHandler.findFiles('temp')
             const media = files.map((file) => {return {url: file}})
             const input = {...params, token, media}
             const PopulatePropertyMedia = usecaseFactory.createPopulatePropertyMedia()

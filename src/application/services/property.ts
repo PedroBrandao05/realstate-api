@@ -8,7 +8,6 @@ import IUuidGenerator from '../contracts/uuidGenerator'
 import IStorage from '../contracts/storage'
 import { ApplicationError } from '../../domain/error/application'
 import { Property } from '../../domain/entities/property'
-import convertDateToString from '../utils/convertDateToString'
 
 @injectable()
 export default class PropertyService implements IPropertyService {

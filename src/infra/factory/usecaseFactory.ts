@@ -14,19 +14,7 @@ import IPropertyPresentationUsecase, { FilterOptions, PropertyPresentationUsecas
 import { iocContainer } from "../../presentation/ioc";
 import IFilterDecorator from "../../application/contracts/filterDecorator";
 import { Filter } from '../../domain/usecases/propertyPresentation'
-import filterOnesOnSale from "../../application/decorators/filter/filterOnesOnSale";
-import filterOnesOnRent from "../../application/decorators/filter/filterOnesOnRent";
-import filterBySaleCost from "../../application/decorators/filter/filterBySaleCost";
-import filterByRentCost from "../../application/decorators/filter/filterByRentCost";
-import filterExchangeableOnes from "../../application/decorators/filter/filterExchangeableOnes";
-import filterFinanciableOnes from "../../application/decorators/filter/filterFinanciableOnes";
-import filterByBathrooms from "../../application/decorators/filter/filterByBathrooms";
-import filterBySleepingRooms from "../../application/decorators/filter/filterBySleepingRooms";
-import filterByArea from "../../application/decorators/filter/filterByArea";
-import filterByGarageSpots from "../../application/decorators/filter/filterByGarageSpots";
-import filterByDistrict from "../../application/decorators/filter/filterByDistrict";
-import filterByPropertyType from "../../application/decorators/filter/filterByPropertyType";
-import appendDecorator from "../../application/decorators/filter";
+import FilterDecoratorFactory from "../../application/decorators/filter/filterDecoratorFactory";
 
 const AuthService = iocContainer.get<IAuthService>('IAuthService')
 const OwnerService = iocContainer.get<IOwnerService>('IOwnerService')
@@ -219,7 +207,7 @@ export default class UsecaseFactory {
         const usecase = async (input: Filter[]) => {
             let decorator : IFilterDecorator
             for (let i = 0; i < input.length; i++){
-                const NextDecorator = appendDecorator(input[i])
+                const NextDecorator = FilterDecoratorFactory.createByFilter(input[i])
                 if (i === 0) {
                     decorator = new NextDecorator()
                 } else {
