@@ -2,7 +2,7 @@ import { ApplicationError } from "../../../domain/error/application";
 import IFinancialDetailsRepository from "../../../domain/repositories/financialDetails";
 import { iocContainer } from "../../../presentation/ioc";
 import IFilterDecorator from "../../contracts/filterDecorator";
-import findPropertiesThatMatch from "../../utils/findPropertiesThatMatch";
+import PropertiesMatcher from "../../../domain/services/propertiesMatcher";
 
 const financialDetailsRepository = iocContainer.get<IFinancialDetailsRepository>('IFinancialDetailsRepository')
 
@@ -20,7 +20,7 @@ export default class filterExchangeableOnes implements IFilterDecorator {
             if (!this.nextFilter) return propertiesFound
             return await this.nextFilter.leach(this.nextValues, propertiesFound)
         }
-        const filteredProperties = findPropertiesThatMatch(previous, propertiesFound)
+        const filteredProperties = PropertiesMatcher.match(previous, propertiesFound)
         if (!this.nextFilter) return filteredProperties
         return this.nextFilter.leach(this.nextValues, filteredProperties)
     }
