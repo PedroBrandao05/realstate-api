@@ -52,6 +52,10 @@ import IPropertyFeaturesService from "../domain/services/propertyFeatures";
 import PropertyFeaturesService from "../application/services/propertyFeatures";
 import IPropertyPresentationUsecase from "../domain/usecases/propertyPresentation";
 import PropertyPresentationUsecase from "../application/usecases/propertyPresentation";
+import IDetailedPropertyQuery from "../application/contracts/detailedPropertyQuery";
+import GetDetailedPropertyQuery from "../infra/queries/getDetailedProperty";
+import IPresentationPropertiesQuery from "../application/contracts/presentationPropertiesQuery";
+import GetPresentationPropertiesQuery from "../infra/queries/getPresentationPropertiesQuery";
 
 const iocContainer = new Container()
 iocContainer.bind<IUuidGenerator>('IUuidGenerator').to(IdGenerator)
@@ -80,5 +84,7 @@ iocContainer.bind<IAddressService>('IAddressService').to(AddressService)
 iocContainer.bind<IFeaturesService>('IFeaturesService').to(FeaturesService)
 iocContainer.bind<IPropertyFeaturesService>('IPropertyFeaturesService').to(PropertyFeaturesService)
 iocContainer.bind<IPropertyPresentationUsecase>('IPropertyPresentationUsecase').to(PropertyPresentationUsecase)
+iocContainer.bind<IDetailedPropertyQuery>('IDetailedPropertyQuery').to(GetDetailedPropertyQuery)
+iocContainer.bind<IPresentationPropertiesQuery>('IPresentationPropertiesQuery').to(GetPresentationPropertiesQuery)
 
 export { iocContainer }

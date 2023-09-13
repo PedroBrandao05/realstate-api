@@ -60,7 +60,7 @@ export default class AuthService implements IAuthService {
 
         const ticket = await this.ticketRepository.findByUser(exists.id)
 
-        if (ticket?.situation === TICKET_SITUATIONS.OPEN) throw new ApplicationError("User must verify his email", 400)
+        if (ticket?.situation == TICKET_SITUATIONS.OPEN) throw new ApplicationError("User must verify his email", 400)
         await this.ticketRepository.delete(ticket?.id!)
 
         const passwordMatches = this.hasher.compare(input.password, exists.password)

@@ -1,8 +1,8 @@
 import { Address } from "../entities/address"
 import { Feature } from "../entities/features"
-import { FinancialDetails } from "../entities/financialDetails"
+import { FinancialDetails, PurchaseMethods } from "../entities/financialDetails"
 import { InfrastructureDetails } from "../entities/infrastructureDetails"
-import { Property } from "../entities/property"
+import { Media, Property } from "../entities/property"
 import { User } from "../entities/user"
 
 export default interface IPropertyPresentationUsecase {
@@ -44,11 +44,27 @@ export namespace PropertyPresentationUsecaseDTO {
     }
 
     export type GetDetailedPropertyOutput = {
-        property: Property,
-        infrastructureDetails: Omit<InfrastructureDetails, 'id'>,
-        financialDetails: Omit<FinancialDetails, 'id'>,
-        address: Omit<Address, 'id'>,
-        realtor: Omit<User, 'id' | 'email' | 'password'>,
-        features: Omit<Feature, 'id'>[]
+        propertyId: string, 
+        title: string, 
+        description: string, 
+        media: Media[], 
+        publishDate: string, 
+        district: string, 
+        sale: boolean, 
+        rent: boolean, 
+        purchaseMethod: PurchaseMethods, 
+        saleCost: number, 
+        rentCost: number, 
+        condominiumCost: number, 
+        iptuCost: number, 
+        acceptsExchange: boolean, 
+        bathrooms: number, 
+        sleepingRooms: number, 
+        garageSpots: number, 
+        area: number, 
+        userId: number, 
+        userName: string, 
+        userPhone: number, 
+        userCreci: string
     }
 }

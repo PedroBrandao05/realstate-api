@@ -9,68 +9,35 @@ import IPropertyFeaturesService from '../../domain/services/propertyFeatures'
 import IUserRepository from '../../domain/repositories/user'
 import { ApplicationError } from '../../domain/error/application'
 import IPropertyRepository from '../../domain/repositories/property'
+import IDetailedPropertyQuery from '../contracts/detailedPropertyQuery'
+import IPresentationPropertiesQuery from '../contracts/presentationPropertiesQuery'
 
 @injectable() 
 export default class PropertyPresentationUsecase implements IPropertyPresentationUsecase {
     constructor (
-        @inject('IPropertyService') private readonly propertyService: IPropertyService,
-        @inject('IFinancialDetailsService') private readonly financialDetailsService: IFinancialDetailsService,
-        @inject('IInfrastructureDetailsService') private readonly infrastructureDetailsService : IInfrastructureDetailsService,
-        @inject('IAddressService') private readonly addressService : IAddressService,
-        @inject('IPropertyFeaturesService') private readonly propertyFeaturesService : IPropertyFeaturesService,
-        @inject('IUserRepository') private readonly userRepository: IUserRepository,
-        @inject('IPropertyRepository') private readonly propertyRepository: IPropertyRepository
+        @inject('IDetailedPropertyQuery') private readonly detailedPropertyQuery: IDetailedPropertyQuery,
+        @inject('IPresentationPropertiesQuery') private readonly presentationPropertiesQuery: IPresentationPropertiesQuery
     ){}
 
     async getFilteredPresentationProperties(input: PropertyPresentationUsecaseDTO.GetFilteredPresentationPropertiesInput): Promise<PropertyPresentationUsecaseDTO.GetPresentationPropertiesOutput> {
-        const output : PropertyPresentationUsecaseDTO.GetPresentationPropertiesOutput = []
-        for (const propertyId of input) {
-            const property = await this.propertyService.get({propertyId})
-            const propertyAddress = await this.addressService.get({propertyId})
-            const propertyFinancialDetails = await this.financialDetailsService.get({propertyId})
-            output.push({
-                propertyId,
-                thumb: property.media[0].url,
-                rentCost: propertyFinancialDetails.rentCost,
-                saleCost: propertyFinancialDetails.saleCost,
-                district: propertyAddress.district
-            })
+        const properties = await this.presentationPropertiesQuery.execute()
+        const filteredProperties = []
+        for (const propertyId of input){
+            const filteredProperty = properties.find(property => property.propertyId === propertyId)
+            if (!filteredProperty) throw new ApplicationError("Invalid propertyId on filters", 400)
+            filteredProperties.push(filteredProperty)
         }
-        return output
+        return filteredProperties
     }
 
     async getAllPresentationProperties(): Promise<PropertyPresentationUsecaseDTO.GetPresentationPropertiesOutput> {
-        const output : PropertyPresentationUsecaseDTO.GetPresentationPropertiesOutput = []
-        const properties = await this.propertyRepository.findAll()
-        for (const property of properties) {
-            const propertyAddress = await this.addressService.get({propertyId: property.id})
-            const propertyFinancialDetails = await this.financialDetailsService.get({propertyId: property.id})
-            output.push({
-                propertyId: property.id,
-                thumb: property.media[0].url,
-                rentCost: propertyFinancialDetails.rentCost,
-                saleCost: propertyFinancialDetails.saleCost,
-                district: propertyAddress.district
-            })
-        }
-        return output
+        const properties = await this.presentationPropertiesQuery.execute()
+        return properties
     }
 
     async getDetailedProperty(input: PropertyPresentationUsecaseDTO.GetDetailedPropertyInput): Promise<PropertyPresentationUsecaseDTO.GetDetailedPropertyOutput> {
-        const property = await this.propertyService.get({...input})
-        const infrastructureDetails = await this.infrastructureDetailsService.get({...input})
-        const financialDetails = await this.financialDetailsService.get({...input})
-        const address = await this.addressService.get({...input})
-        const features = await this.propertyFeaturesService.getAll({...input})
-        const user = await this.userRepository.findById(property.userId)
-        if (!user) throw new ApplicationError("The user in the property doesn't exist", 400)
-        return {
-            property,
-            infrastructureDetails,
-            financialDetails,
-            address,
-            features,
-            realtor: {name: user.name, phone: user.phone, creci: user.creci}
-        }
+        const property = await this.detailedPropertyQuery.execute(input.propertyId)
+        if (!property) throw new ApplicationError("This property does not exist", 400)
+        return property
     }
 }
